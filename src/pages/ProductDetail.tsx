@@ -26,7 +26,9 @@ const ProductDetail = () => {
       return;
     }
     
-    if (product.colors && product.colors.length > 0 && !selectedColor) {
+    // Type-safe check for colors
+    const colors = Array.isArray(product.colors) ? product.colors : [];
+    if (colors.length > 0 && !selectedColor) {
       alert('Please select a color');
       return;
     }
@@ -66,6 +68,9 @@ const ProductDetail = () => {
       </div>
     );
   }
+
+  // Type-safe handling of colors
+  const colors = Array.isArray(product.colors) ? product.colors.filter((color): color is string => typeof color === 'string') : [];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -145,7 +150,7 @@ const ProductDetail = () => {
             )}
 
             {/* Color Selection */}
-            {product.colors && Array.isArray(product.colors) && product.colors.length > 0 && (
+            {colors.length > 0 && (
               <div className="mb-6">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Color</label>
                 <Select value={selectedColor} onValueChange={setSelectedColor}>
@@ -153,7 +158,7 @@ const ProductDetail = () => {
                     <SelectValue placeholder="Select color" />
                   </SelectTrigger>
                   <SelectContent>
-                    {product.colors.map((color) => (
+                    {colors.map((color) => (
                       <SelectItem key={color} value={color}>{color}</SelectItem>
                     ))}
                   </SelectContent>
