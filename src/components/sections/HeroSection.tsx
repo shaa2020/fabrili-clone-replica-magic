@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Sparkles, Palette } from 'lucide-react';
@@ -10,7 +9,9 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 text-center relative z-10">
         <div className="max-w-4xl mx-auto">
           <div className="animate-float mb-8">
-            <div className="w-32 h-32 mx-auto bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-6 shadow-lg"></div>
+            <div className="w-32 h-32 mx-auto bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-6 shadow-lg">
+              <div className="w-16 h-16 bg-white/30 rounded-full"></div>
+            </div>
           </div>
           
           <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 animate-fade-in leading-tight">
