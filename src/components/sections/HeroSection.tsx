@@ -10,13 +10,7 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 text-center relative z-10">
         <div className="max-w-4xl mx-auto">
           <div className="animate-float mb-8">
-            <div className="w-32 h-32 mx-auto bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-6 shadow-lg p-4">
-              <img 
-                src="/lovable-uploads/404332f3-d00d-4521-8ca1-d73b5302608a.png" 
-                alt="GEO Logo" 
-                className="w-full h-full object-contain"
-              />
-            </div>
+            <div className="w-32 h-32 mx-auto bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-6 shadow-lg"></div>
           </div>
           
           <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 animate-fade-in leading-tight">
