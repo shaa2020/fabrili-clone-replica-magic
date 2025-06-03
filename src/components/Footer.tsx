@@ -14,11 +14,15 @@ const Footer = () => {
       
       <div className="container mx-auto px-4 py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          {/* Enhanced Company Info */}
+          {/* Enhanced Company Info with uploaded logo */}
           <div className="md:col-span-1">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-geo rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-xl">G</span>
+              <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg p-2">
+                <img 
+                  src="/lovable-uploads/404332f3-d00d-4521-8ca1-d73b5302608a.png" 
+                  alt="GEO Logo" 
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <span className="text-3xl font-bold text-white">GEO</span>
@@ -65,7 +69,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Enhanced Collections */}
           <div>
             <h4 className="font-bold mb-6 text-xl text-white">Collections</h4>
             <ul className="space-y-3">
@@ -88,7 +91,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Enhanced Support */}
           <div>
             <h4 className="font-bold mb-6 text-xl text-white">Support</h4>
             <ul className="space-y-3">

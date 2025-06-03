@@ -22,19 +22,23 @@ const Header = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="bg-white/95 backdrop-blur-md shadow-geo border-b sticky top-0 z-50">
+    <header className="bg-white/95 backdrop-blur-md shadow-lg border-b sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Enhanced Logo */}
+          {/* Enhanced Logo with uploaded image */}
           <Link to="/" className="flex items-center space-x-3 group">
             <div className="relative">
-              <div className="w-14 h-14 bg-gradient-geo rounded-2xl flex items-center justify-center shadow-geo transform group-hover:scale-110 transition-all duration-300 animate-float">
-                <span className="text-white font-bold text-2xl">G</span>
+              <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-all duration-300 animate-float p-2">
+                <img 
+                  src="/lovable-uploads/404332f3-d00d-4521-8ca1-d73b5302608a.png" 
+                  alt="GEO Logo" 
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div className="absolute -top-1 -right-1 w-4 h-4 bg-gray-400 rounded-full animate-pulse"></div>
             </div>
             <div className="flex flex-col">
-              <span className="text-4xl font-bold text-geo-gradient leading-none">
+              <span className="text-4xl font-bold text-black leading-none">
                 GEO
               </span>
               <span className="text-xs text-gray-500 font-medium tracking-wider">
@@ -50,15 +54,15 @@ const Header = () => {
               className={`font-semibold hover:text-black transition-colors duration-200 relative group ${isActive('/products') ? 'text-black' : 'text-gray-700'}`}
             >
               Products
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-geo transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
             </Link>
             
             <DropdownMenu>
               <DropdownMenuTrigger className="font-semibold text-gray-700 hover:text-black transition-colors duration-200 relative group">
                 Collections
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-geo transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white/95 backdrop-blur-md shadow-geo border-0 rounded-2xl p-2">
+              <DropdownMenuContent className="bg-white/95 backdrop-blur-md shadow-lg border-0 rounded-2xl p-2">
                 <DropdownMenuItem asChild>
                   <Link to="/category/t-shirts" className="hover:bg-black/10 rounded-xl transition-colors">
                     <span className="mr-2">👕</span> Geometric T-Shirts
@@ -87,7 +91,7 @@ const Header = () => {
               className={`font-semibold hover:text-black transition-colors duration-200 relative group ${isActive('/custom-design') ? 'text-black' : 'text-gray-700'}`}
             >
               Design Studio
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-geo transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
             </Link>
             
             <Link 
@@ -95,7 +99,7 @@ const Header = () => {
               className={`font-semibold hover:text-black transition-colors duration-200 relative group ${isActive('/about') ? 'text-black' : 'text-gray-700'}`}
             >
               About GEO
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-geo transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
             </Link>
           </nav>
 
@@ -105,7 +109,7 @@ const Header = () => {
               <Button variant="outline" size="sm" className="relative overflow-hidden hover:bg-black hover:text-white transition-all duration-300 border-2 hover:border-black shadow-md">
                 🛒 Cart
                 {cartCount > 0 && (
-                  <Badge className="ml-2 bg-gradient-geo text-white animate-bounce shadow-lg">
+                  <Badge className="ml-2 bg-black text-white animate-bounce shadow-lg">
                     {cartCount}
                   </Badge>
                 )}
@@ -119,7 +123,7 @@ const Header = () => {
                     👤 Account
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-white/95 backdrop-blur-md shadow-geo border-0 rounded-2xl">
+                <DropdownMenuContent className="bg-white/95 backdrop-blur-md shadow-lg border-0 rounded-2xl">
                   <DropdownMenuItem onClick={signOut} className="hover:bg-black/10 rounded-xl transition-colors">
                     Sign Out
                   </DropdownMenuItem>
@@ -133,7 +137,7 @@ const Header = () => {
                   </Button>
                 </Link>
                 <Link to="/signup">
-                  <Button className="bg-gradient-geo hover:bg-gradient-geo-dark text-white shadow-geo hover:shadow-geo-lg transition-all duration-300 transform hover:scale-105" size="sm">
+                  <Button className="bg-black hover:bg-gray-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105" size="sm">
                     Join GEO
                   </Button>
                 </Link>

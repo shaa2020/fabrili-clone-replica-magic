@@ -5,13 +5,17 @@ import { Sparkles, Palette } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="relative overflow-hidden bg-gradient-geo animate-gradient min-h-[80vh] flex items-center geo-pattern">
+    <section className="relative overflow-hidden bg-black min-h-[80vh] flex items-center">
       <div className="absolute inset-0 bg-black/10"></div>
       <div className="container mx-auto px-4 text-center relative z-10">
         <div className="max-w-4xl mx-auto">
           <div className="animate-float mb-8">
-            <div className="w-32 h-32 mx-auto bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-6 shadow-geo-lg">
-              <span className="text-6xl font-bold text-white">G</span>
+            <div className="w-32 h-32 mx-auto bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-6 shadow-lg p-4">
+              <img 
+                src="/lovable-uploads/404332f3-d00d-4521-8ca1-d73b5302608a.png" 
+                alt="GEO Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
           </div>
           
@@ -28,13 +32,13 @@ const HeroSection = () => {
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center animate-scale-in">
             <Link to="/custom-design">
-              <Button size="lg" className="bg-white text-black hover:bg-gray-100 transform hover:scale-110 transition-all duration-300 shadow-geo btn-3d text-xl px-12 py-6 border-2 border-white">
+              <Button size="lg" className="bg-white text-black hover:bg-gray-100 transform hover:scale-110 transition-all duration-300 shadow-lg text-xl px-12 py-6 border-2 border-white">
                 <Palette className="mr-3 h-6 w-6" />
                 Start Creating
               </Button>
             </Link>
             <Link to="/products">
-              <Button size="lg" variant="outline" className="border-2 border-white bg-transparent text-white hover:bg-white hover:text-black backdrop-blur-sm transform hover:scale-110 transition-all duration-300 shadow-geo text-xl px-12 py-6">
+              <Button size="lg" variant="outline" className="border-2 border-white bg-transparent text-white hover:bg-white hover:text-black backdrop-blur-sm transform hover:scale-110 transition-all duration-300 shadow-lg text-xl px-12 py-6">
                 <Sparkles className="mr-3 h-6 w-6" />
                 Explore Collection
               </Button>
