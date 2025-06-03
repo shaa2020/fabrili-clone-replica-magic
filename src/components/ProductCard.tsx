@@ -34,7 +34,7 @@ const ProductCard = ({ id, name, price, image, category, isNew }: ProductCardPro
           {name}
         </h3>
         <div className="flex items-center justify-between">
-          <span className="text-lg font-bold text-primary">${price}</span>
+          <span className="text-lg font-bold text-primary">৳{price}</span>
           <div className="flex space-x-2">
             <Link to={`/product/${id}`}>
               <Button variant="outline" size="sm">

@@ -11,7 +11,7 @@ const Cart = () => {
     {
       id: '1',
       name: 'Custom T-Shirt',
-      price: 24.99,
+      price: 1200,
       quantity: 2,
       size: 'M',
       color: 'Black',
@@ -20,7 +20,7 @@ const Cart = () => {
     {
       id: '2',
       name: 'Premium Hoodie',
-      price: 49.99,
+      price: 2500,
       quantity: 1,
       size: 'L',
       color: 'Gray',
@@ -39,8 +39,13 @@ const Cart = () => {
   };
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = 9.99;
+  const shipping = 150;
   const total = subtotal + shipping;
+
+  const handleSSLCommerzPayment = () => {
+    // SSLCommerz integration will be added after Supabase setup
+    alert('SSLCommerz payment integration will be implemented with backend setup');
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -73,7 +78,7 @@ const Cart = () => {
                     <div className="flex-1">
                       <h3 className="font-semibold text-lg">{item.name}</h3>
                       <p className="text-gray-600">Size: {item.size}, Color: {item.color}</p>
-                      <p className="text-primary font-semibold">${item.price}</p>
+                      <p className="text-primary font-semibold">৳{item.price}</p>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Button
@@ -93,7 +98,7 @@ const Cart = () => {
                       </Button>
                     </div>
                     <div className="text-right">
-                      <p className="font-semibold">${(item.price * item.quantity).toFixed(2)}</p>
+                      <p className="font-semibold">৳{(item.price * item.quantity).toFixed(0)}</p>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -115,24 +120,25 @@ const Cart = () => {
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>৳{subtotal.toFixed(0)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Shipping</span>
-                    <span>${shipping.toFixed(2)}</span>
+                    <span>৳{shipping.toFixed(0)}</span>
                   </div>
                   <div className="border-t pt-3">
                     <div className="flex justify-between font-semibold text-lg">
                       <span>Total</span>
-                      <span>${total.toFixed(2)}</span>
+                      <span>৳{total.toFixed(0)}</span>
                     </div>
                   </div>
                 </div>
-                <Link to="/checkout" className="block mt-6">
-                  <Button className="w-full bg-primary hover:bg-primary/90">
-                    Proceed to Checkout
-                  </Button>
-                </Link>
+                <Button 
+                  onClick={handleSSLCommerzPayment}
+                  className="w-full mt-6 bg-primary hover:bg-primary/90"
+                >
+                  Pay with SSLCommerz
+                </Button>
                 <Link to="/products" className="block mt-3">
                   <Button variant="outline" className="w-full">
                     Continue Shopping
