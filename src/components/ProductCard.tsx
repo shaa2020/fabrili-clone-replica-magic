@@ -2,6 +2,7 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useCart } from '@/contexts/CartContext';
 
 interface ProductCardProps {
   id: string;
@@ -13,8 +14,16 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ id, name, price, image, category, isNew }: ProductCardProps) => {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    await addToCart(id, 1);
+  };
+
   return (
-    <div className="group bg-white rounded-lg shadow-sm border hover:shadow-lg transition-all duration-300 overflow-hidden">
+    <div className="group bg-white rounded-lg shadow-sm border hover:shadow-lg transition-all duration-300 overflow-hidden transform hover:scale-105">
       <div className="relative overflow-hidden">
         <img
           src={image}
@@ -22,7 +31,7 @@ const ProductCard = ({ id, name, price, image, category, isNew }: ProductCardPro
           className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
         />
         {isNew && (
-          <Badge className="absolute top-3 left-3 bg-primary text-white">
+          <Badge className="absolute top-3 left-3 bg-gradient-to-r from-primary to-orange-600 text-white animate-pulse">
             New
           </Badge>
         )}
@@ -34,14 +43,18 @@ const ProductCard = ({ id, name, price, image, category, isNew }: ProductCardPro
           {name}
         </h3>
         <div className="flex items-center justify-between">
-          <span className="text-lg font-bold text-primary">৳{price}</span>
+          <span className="text-lg font-bold bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent">৳{price}</span>
           <div className="flex space-x-2">
             <Link to={`/product/${id}`}>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="hover:bg-primary hover:text-white transition-all duration-200 transform hover:scale-105">
                 View
               </Button>
             </Link>
-            <Button size="sm" className="bg-primary hover:bg-primary/90">
+            <Button 
+              size="sm" 
+              onClick={handleAddToCart}
+              className="bg-gradient-to-r from-primary to-orange-600 hover:from-orange-600 hover:to-primary text-white shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+            >
               Add to Cart
             </Button>
           </div>
