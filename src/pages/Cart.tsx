@@ -10,7 +10,7 @@ import { useCart } from '@/contexts/CartContext';
 const Cart = () => {
   const { items, updateQuantity, removeFromCart } = useCart();
 
-  const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const subtotal = items.reduce((sum, item) => sum + (item.products?.price || 0) * item.quantity, 0);
   const shipping = subtotal > 0 ? 150 : 0;
   const total = subtotal + shipping;
 
@@ -53,18 +53,18 @@ const Cart = () => {
                   <div className="flex items-center space-x-6">
                     <div className="relative group">
                       <img
-                        src={item.image}
-                        alt={item.name}
+                        src={item.products?.images?.[0] || '/placeholder.svg'}
+                        alt={item.products?.name || 'Product'}
                         className="w-24 h-24 object-cover rounded-xl shadow-md group-hover:scale-105 transition-transform duration-200"
                       />
                       <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 rounded-xl transition-all duration-200"></div>
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-bold text-xl text-gray-800 mb-2">{item.name}</h3>
-                      <p className="text-gray-600 mb-1">Size: {item.size || 'Standard'}</p>
-                      <p className="text-gray-600 mb-3">Color: {item.color || 'Default'}</p>
+                      <h3 className="font-bold text-xl text-gray-800 mb-2">{item.products?.name || 'Product'}</h3>
+                      <p className="text-gray-600 mb-1">Size: Standard</p>
+                      <p className="text-gray-600 mb-3">Color: Default</p>
                       <p className="text-2xl font-bold bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent">
-                        ৳{item.price}
+                        ৳{item.products?.price || 0}
                       </p>
                     </div>
                     <div className="flex items-center space-x-3 bg-gray-50 rounded-xl p-2">
@@ -90,7 +90,7 @@ const Cart = () => {
                     </div>
                     <div className="text-right">
                       <p className="text-2xl font-bold text-gray-800 mb-2">
-                        ৳{(item.price * item.quantity).toFixed(0)}
+                        ৳{((item.products?.price || 0) * item.quantity).toFixed(0)}
                       </p>
                       <Button
                         variant="ghost"
