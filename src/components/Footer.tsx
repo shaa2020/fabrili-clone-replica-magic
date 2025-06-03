@@ -21,7 +21,7 @@ const Footer = () => {
                 <span className="text-white font-bold text-xl">G</span>
               </div>
               <div>
-                <span className="text-3xl font-bold text-geo-gradient">GEO</span>
+                <span className="text-3xl font-bold text-white">GEO</span>
                 <p className="text-xs text-gray-400 font-medium tracking-wider">GEOMETRIC DESIGN</p>
               </div>
             </div>
@@ -30,13 +30,13 @@ const Footer = () => {
               Where mathematical precision meets creative excellence.
             </p>
             <div className="flex space-x-4">
-              <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors cursor-pointer">
+              <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-white hover:text-black transition-colors cursor-pointer">
                 <span className="text-sm">📘</span>
               </div>
-              <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors cursor-pointer">
+              <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-white hover:text-black transition-colors cursor-pointer">
                 <span className="text-sm">📷</span>
               </div>
-              <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors cursor-pointer">
+              <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-white hover:text-black transition-colors cursor-pointer">
                 <span className="text-sm">🐦</span>
               </div>
             </div>

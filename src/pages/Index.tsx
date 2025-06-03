@@ -17,7 +17,7 @@ const Index = () => {
 
   if (productsLoading || categoriesLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary-50">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
         <Header />
         <div className="container mx-auto px-4 py-8">
           <div className="flex items-center justify-center h-64">
@@ -30,7 +30,7 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
       <Header />
       
       {/* Enhanced Hero Section */}
@@ -45,10 +45,10 @@ const Index = () => {
             </div>
             
             <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 animate-fade-in leading-tight">
-              Welcome to <span className="text-yellow-300 animate-pulse">GEO</span>
+              Welcome to <span className="text-gray-200 animate-pulse">GEO</span>
             </h1>
             <p className="text-2xl md:text-3xl text-white/90 mb-8 animate-slide-up font-light">
-              Where Geometry Meets <span className="text-yellow-300 font-semibold">Creativity</span>
+              Where Geometry Meets <span className="text-gray-200 font-semibold">Creativity</span>
             </p>
             <p className="text-xl text-white/80 mb-12 max-w-3xl mx-auto animate-fade-in leading-relaxed">
               Transform your ideas into stunning geometric designs. Premium quality apparel and merchandise 
@@ -57,13 +57,13 @@ const Index = () => {
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center animate-scale-in">
               <Link to="/custom-design">
-                <Button size="lg" className="bg-white text-primary hover:bg-yellow-50 transform hover:scale-110 transition-all duration-300 shadow-geo btn-3d text-xl px-12 py-6">
+                <Button size="lg" className="bg-white text-black hover:bg-gray-100 transform hover:scale-110 transition-all duration-300 shadow-geo btn-3d text-xl px-12 py-6 border-2 border-white">
                   <Palette className="mr-3 h-6 w-6" />
                   Start Creating
                 </Button>
               </Link>
               <Link to="/products">
-                <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 backdrop-blur-sm transform hover:scale-110 transition-all duration-300 shadow-geo text-xl px-12 py-6">
+                <Button size="lg" variant="outline" className="border-2 border-white bg-transparent text-white hover:bg-white hover:text-black backdrop-blur-sm transform hover:scale-110 transition-all duration-300 shadow-geo text-xl px-12 py-6">
                   <Sparkles className="mr-3 h-6 w-6" />
                   Explore Collection
                 </Button>
@@ -74,9 +74,9 @@ const Index = () => {
         
         {/* Floating geometric shapes */}
         <div className="absolute top-20 left-10 w-16 h-16 bg-white/20 transform rotate-45 animate-float"></div>
-        <div className="absolute top-40 right-20 w-12 h-12 bg-yellow-300/30 rounded-full animate-float" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-40 right-20 w-12 h-12 bg-gray-300/30 rounded-full animate-float" style={{animationDelay: '1s'}}></div>
         <div className="absolute bottom-32 left-20 w-20 h-20 bg-white/15 clip-polygon animate-float" style={{animationDelay: '2s'}}></div>
-        <div className="absolute bottom-20 right-16 w-14 h-14 bg-yellow-300/25 transform rotate-12 animate-float" style={{animationDelay: '0.5s'}}></div>
+        <div className="absolute bottom-20 right-16 w-14 h-14 bg-gray-300/25 transform rotate-12 animate-float" style={{animationDelay: '0.5s'}}></div>
       </section>
 
       {/* Enhanced Features Section */}
@@ -93,37 +93,37 @@ const Index = () => {
                 icon: Palette,
                 title: "Geometric Design Tools",
                 description: "Advanced design suite with precision geometric tools and templates",
-                color: "from-primary-500 to-primary-600"
+                color: "from-gray-700 to-black"
               },
               {
                 icon: Zap,
                 title: "Lightning Fast Production",
                 description: "State-of-the-art printing technology for quick turnaround times",
-                color: "from-secondary-500 to-secondary-600"
+                color: "from-gray-600 to-gray-800"
               },
               {
                 icon: Award,
                 title: "Premium Quality",
                 description: "Museum-grade materials and precision craftsmanship in every product",
-                color: "from-accent-500 to-accent-600"
+                color: "from-gray-500 to-gray-700"
               },
               {
                 icon: Shield,
                 title: "Lifetime Guarantee",
                 description: "We stand behind every geometric pattern with our quality promise",
-                color: "from-primary-600 to-secondary-500"
+                color: "from-black to-gray-600"
               },
               {
                 icon: Clock,
                 title: "24/7 Design Support",
                 description: "Expert designers available around the clock to help perfect your vision",
-                color: "from-secondary-600 to-accent-500"
+                color: "from-gray-800 to-gray-500"
               },
               {
                 icon: Sparkles,
                 title: "Infinite Possibilities",
                 description: "Unlimited design variations with our advanced geometric engine",
-                color: "from-accent-600 to-primary-500"
+                color: "from-gray-700 to-black"
               }
             ].map((feature, index) => (
               <div key={feature.title} className="group animate-fade-in" style={{animationDelay: `${index * 0.2}s`}}>
@@ -141,7 +141,7 @@ const Index = () => {
       </section>
 
       {/* Enhanced Categories */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-primary-50">
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold text-geo-gradient mb-6">Geometric Collections</h2>
@@ -214,7 +214,7 @@ const Index = () => {
             <h2 className="text-5xl font-bold text-white mb-6 animate-fade-in">Ready to Create Something Geometric?</h2>
             <p className="text-xl text-white/90 mb-8 animate-slide-up">Join thousands of creators who trust GEO for their geometric design needs</p>
             <Link to="/custom-design">
-              <Button size="lg" className="bg-white text-primary hover:bg-yellow-50 transform hover:scale-110 transition-all duration-300 shadow-geo btn-3d text-xl px-12 py-6 animate-scale-in">
+              <Button size="lg" className="bg-white text-black hover:bg-gray-100 transform hover:scale-110 transition-all duration-300 shadow-geo btn-3d text-xl px-12 py-6 animate-scale-in border-2 border-white">
                 <Palette className="mr-3 h-6 w-6" />
                 Start Your GEO Journey
               </Button>

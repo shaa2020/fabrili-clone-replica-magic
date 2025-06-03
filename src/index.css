@@ -173,43 +173,43 @@
 
 /* Enhanced button effects */
 .btn-glow:hover {
-  box-shadow: 0 0 30px rgba(255, 107, 53, 0.6), 0 0 60px rgba(255, 107, 53, 0.4);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
 }
 
 .btn-3d {
-  box-shadow: 0 6px 0 #e55a2b, 0 12px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 0 #404040, 0 12px 20px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease;
 }
 
 .btn-3d:hover {
   transform: translateY(2px);
-  box-shadow: 0 4px 0 #e55a2b, 0 8px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 0 #404040, 0 8px 15px rgba(0, 0, 0, 0.3);
 }
 
 .btn-3d:active {
   transform: translateY(6px);
-  box-shadow: 0 0 0 #e55a2b, 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 #404040, 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Gradient backgrounds */
 .gradient-geo {
-  background: linear-gradient(135deg, #FF6B35 0%, #F7931E 25%, #FFD700 50%, #F7931E 75%, #FF6B35 100%);
+  background: linear-gradient(135deg, #000000 0%, #404040 25%, #808080 50%, #404040 75%, #000000 100%);
 }
 
 .gradient-geo-dark {
-  background: linear-gradient(135deg, #e55a2b 0%, #d67819 25%, #e6c200 50%, #d67819 75%, #e55a2b 100%);
+  background: linear-gradient(135deg, #202020 0%, #505050 25%, #707070 50%, #505050 75%, #202020 100%);
 }
 
 .gradient-card {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* Text effects */
 .text-geo-gradient {
-  background: linear-gradient(135deg, #FF6B35, #F7931E, #FFD700);
+  background: linear-gradient(135deg, #000000, #404040, #808080);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -229,10 +229,10 @@
   right: 0;
   bottom: 0;
   background-image: 
-    linear-gradient(45deg, rgba(255, 107, 53, 0.1) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(255, 107, 53, 0.1) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, rgba(247, 147, 30, 0.1) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(247, 147, 30, 0.1) 75%);
+    linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(64, 64, 64, 0.1) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(64, 64, 64, 0.1) 75%);
   background-size: 60px 60px;
   background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
   opacity: 0.3;
@@ -248,14 +248,14 @@
 .glass {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* Enhanced shadows */
 .shadow-geo {
-  box-shadow: 0 10px 40px rgba(255, 107, 53, 0.3), 0 4px 20px rgba(247, 147, 30, 0.2);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2), 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .shadow-geo-lg {
-  box-shadow: 0 20px 60px rgba(255, 107, 53, 0.4), 0 8px 30px rgba(247, 147, 30, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 8px 30px rgba(0, 0, 0, 0.2);
 }
