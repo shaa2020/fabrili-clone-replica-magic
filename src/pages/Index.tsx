@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import GeoProductCard from '@/components/GeoProductCard';
 import { useProducts, useCategories } from '@/hooks/useProducts';
+import { Sparkles, Zap, Palette, Shield, Clock, Award } from 'lucide-react';
 
 const Index = () => {
   const { data: products = [], isLoading: productsLoading } = useProducts();
@@ -16,11 +17,11 @@ const Index = () => {
 
   if (productsLoading || categoriesLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary-50">
         <Header />
         <div className="container mx-auto px-4 py-8">
           <div className="flex items-center justify-center h-64">
-            <div className="text-lg">Loading...</div>
+            <div className="text-lg animate-pulse">Loading amazing GEO products...</div>
           </div>
         </div>
         <Footer />
@@ -29,49 +30,139 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50">
       <Header />
       
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-orange-500 text-white py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in">
-            Create Your Perfect Design with GEO
-          </h1>
-          <p className="text-xl mb-8 max-w-2xl mx-auto animate-fade-in">
-            Premium quality apparel and merchandise made easy. Design, customize, and order your perfect GEO products today.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
-            <Link to="/custom-design">
-              <Button size="lg" className="bg-white text-primary hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
-                Start Designing
-              </Button>
-            </Link>
-            <Link to="/products">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
-                Browse Products
-              </Button>
-            </Link>
+      {/* Enhanced Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-geo animate-gradient min-h-[80vh] flex items-center geo-pattern">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <div className="animate-float mb-8">
+              <div className="w-32 h-32 mx-auto bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-6 shadow-geo-lg">
+                <span className="text-6xl font-bold text-white">G</span>
+              </div>
+            </div>
+            
+            <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 animate-fade-in leading-tight">
+              Welcome to <span className="text-yellow-300 animate-pulse">GEO</span>
+            </h1>
+            <p className="text-2xl md:text-3xl text-white/90 mb-8 animate-slide-up font-light">
+              Where Geometry Meets <span className="text-yellow-300 font-semibold">Creativity</span>
+            </p>
+            <p className="text-xl text-white/80 mb-12 max-w-3xl mx-auto animate-fade-in leading-relaxed">
+              Transform your ideas into stunning geometric designs. Premium quality apparel and merchandise 
+              with precision-crafted patterns that make every piece a work of art.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-6 justify-center animate-scale-in">
+              <Link to="/custom-design">
+                <Button size="lg" className="bg-white text-primary hover:bg-yellow-50 transform hover:scale-110 transition-all duration-300 shadow-geo btn-3d text-xl px-12 py-6">
+                  <Palette className="mr-3 h-6 w-6" />
+                  Start Creating
+                </Button>
+              </Link>
+              <Link to="/products">
+                <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 backdrop-blur-sm transform hover:scale-110 transition-all duration-300 shadow-geo text-xl px-12 py-6">
+                  <Sparkles className="mr-3 h-6 w-6" />
+                  Explore Collection
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+        
+        {/* Floating geometric shapes */}
+        <div className="absolute top-20 left-10 w-16 h-16 bg-white/20 transform rotate-45 animate-float"></div>
+        <div className="absolute top-40 right-20 w-12 h-12 bg-yellow-300/30 rounded-full animate-float" style={{animationDelay: '1s'}}></div>
+        <div className="absolute bottom-32 left-20 w-20 h-20 bg-white/15 clip-polygon animate-float" style={{animationDelay: '2s'}}></div>
+        <div className="absolute bottom-20 right-16 w-14 h-14 bg-yellow-300/25 transform rotate-12 animate-float" style={{animationDelay: '0.5s'}}></div>
+      </section>
+
+      {/* Enhanced Features Section */}
+      <section className="py-20 bg-white relative">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-bold text-geo-gradient mb-6">Why Choose GEO?</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">Experience the perfect blend of geometric precision and creative freedom</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                icon: Palette,
+                title: "Geometric Design Tools",
+                description: "Advanced design suite with precision geometric tools and templates",
+                color: "from-primary-500 to-primary-600"
+              },
+              {
+                icon: Zap,
+                title: "Lightning Fast Production",
+                description: "State-of-the-art printing technology for quick turnaround times",
+                color: "from-secondary-500 to-secondary-600"
+              },
+              {
+                icon: Award,
+                title: "Premium Quality",
+                description: "Museum-grade materials and precision craftsmanship in every product",
+                color: "from-accent-500 to-accent-600"
+              },
+              {
+                icon: Shield,
+                title: "Lifetime Guarantee",
+                description: "We stand behind every geometric pattern with our quality promise",
+                color: "from-primary-600 to-secondary-500"
+              },
+              {
+                icon: Clock,
+                title: "24/7 Design Support",
+                description: "Expert designers available around the clock to help perfect your vision",
+                color: "from-secondary-600 to-accent-500"
+              },
+              {
+                icon: Sparkles,
+                title: "Infinite Possibilities",
+                description: "Unlimited design variations with our advanced geometric engine",
+                color: "from-accent-600 to-primary-500"
+              }
+            ].map((feature, index) => (
+              <div key={feature.title} className="group animate-fade-in" style={{animationDelay: `${index * 0.2}s`}}>
+                <Card className="p-8 h-full gradient-card hover:shadow-geo-lg transform hover:scale-105 transition-all duration-500 border-0">
+                  <div className={`w-20 h-20 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <feature.icon className="text-white h-10 w-10" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-center text-gray-800">{feature.title}</h3>
+                  <p className="text-gray-600 text-center leading-relaxed">{feature.description}</p>
+                </Card>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="py-16">
+      {/* Enhanced Categories */}
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-primary-50">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Shop GEO Categories</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {categories.map((category) => (
-              <Link key={category.id} to={`/category/${category.slug}`} className="group">
-                <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 animate-scale-in transform hover:scale-105">
-                  <div className="relative">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-bold text-geo-gradient mb-6">Geometric Collections</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">Discover our carefully curated collections of geometric designs</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {categories.map((category, index) => (
+              <Link key={category.id} to={`/category/${category.slug}`} className="group animate-scale-in" style={{animationDelay: `${index * 0.15}s`}}>
+                <Card className="overflow-hidden hover:shadow-geo-lg transition-all duration-500 transform hover:scale-105 border-0 gradient-card">
+                  <div className="relative overflow-hidden">
                     <img
                       src={category.image_url || '/placeholder.svg'}
                       alt={category.name}
-                      className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                      className="w-full h-64 object-cover group-hover:scale-125 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end justify-center pb-6">
-                      <h3 className="text-white text-xl font-semibold">GEO {category.name}</h3>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-geo opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <h3 className="text-white text-2xl font-bold mb-2">GEO {category.name}</h3>
+                      <p className="text-white/80 text-sm">Geometric {category.name.toLowerCase()} collection</p>
                     </div>
                   </div>
                 </Card>
@@ -81,59 +172,53 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="py-16 bg-white">
+      {/* Enhanced Featured Products */}
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Featured GEO Products</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((product) => (
-              <GeoProductCard 
-                key={product.id}
-                id={product.id}
-                name={product.name}
-                price={product.price}
-                image={product.images?.[0] || '/placeholder.svg'}
-                category={product.categories?.name || 'Uncategorized'}
-                isNew={product.is_new || false}
-              />
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-bold text-geo-gradient mb-6">Featured GEO Designs</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">Handpicked geometric masterpieces that showcase the art of precision</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {featuredProducts.map((product, index) => (
+              <div key={product.id} className="animate-fade-in" style={{animationDelay: `${index * 0.2}s`}}>
+                <GeoProductCard 
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  image={product.images?.[0] || '/placeholder.svg'}
+                  category={product.categories?.name || 'Geometric Art'}
+                  isNew={product.is_new || false}
+                />
+              </div>
             ))}
           </div>
-          <div className="text-center mt-8">
+          
+          <div className="text-center mt-12">
             <Link to="/products">
-              <Button className="bg-gradient-to-r from-primary to-orange-600 hover:from-orange-600 hover:to-primary text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-                View All GEO Products
+              <Button className="bg-gradient-geo hover:bg-gradient-geo-dark text-white shadow-geo hover:shadow-geo-lg transform hover:scale-105 transition-all duration-300 text-xl px-12 py-6 btn-3d">
+                <Sparkles className="mr-3 h-6 w-6" />
+                Explore All GEO Products
               </Button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Why Choose GEO?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center group">
-              <div className="w-16 h-16 bg-gradient-to-r from-primary to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 transform group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <span className="text-white text-2xl">🎨</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Custom Design</h3>
-              <p className="text-gray-600">Easy-to-use design tools to create your perfect GEO product</p>
-            </div>
-            <div className="text-center group">
-              <div className="w-16 h-16 bg-gradient-to-r from-primary to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 transform group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <span className="text-white text-2xl">⚡</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Fast Delivery</h3>
-              <p className="text-gray-600">Quick production and shipping to get your GEO products fast</p>
-            </div>
-            <div className="text-center group">
-              <div className="w-16 h-16 bg-gradient-to-r from-primary to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 transform group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <span className="text-white text-2xl">✨</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Premium Quality</h3>
-              <p className="text-gray-600">High-quality materials and printing for lasting GEO products</p>
-            </div>
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-geo geo-pattern relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-5xl font-bold text-white mb-6 animate-fade-in">Ready to Create Something Geometric?</h2>
+            <p className="text-xl text-white/90 mb-8 animate-slide-up">Join thousands of creators who trust GEO for their geometric design needs</p>
+            <Link to="/custom-design">
+              <Button size="lg" className="bg-white text-primary hover:bg-yellow-50 transform hover:scale-110 transition-all duration-300 shadow-geo btn-3d text-xl px-12 py-6 animate-scale-in">
+                <Palette className="mr-3 h-6 w-6" />
+                Start Your GEO Journey
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
