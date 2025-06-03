@@ -1,11 +1,24 @@
+
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Sparkles, Palette } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="relative overflow-hidden bg-black min-h-[80vh] flex items-center">
-      <div className="absolute inset-0 bg-black/10"></div>
+    <section className="relative overflow-hidden min-h-[80vh] flex items-center">
+      {/* Background Image with Animation */}
+      <div className="absolute inset-0">
+        <img 
+          src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?q=80&w=8256&h=5504&auto=format&fit=crop"
+          alt="Fashion Background"
+          className="w-full h-full object-cover animate-scale-in"
+        />
+        {/* Animated Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70 animate-gradient"></div>
+        {/* Additional Dark Overlay for Text Readability */}
+        <div className="absolute inset-0 bg-black/30"></div>
+      </div>
+      
       <div className="container mx-auto px-4 text-center relative z-10">
         <div className="max-w-4xl mx-auto">
           <div className="animate-float mb-8">
