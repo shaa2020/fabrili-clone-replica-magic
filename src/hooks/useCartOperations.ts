@@ -320,15 +320,6 @@ export const useCartOperations = () => {
     }
   };
 
-  // Clear cart immediately when component loads to remove the 3 products
-  useEffect(() => {
-    const clearExistingCart = async () => {
-      console.log('Clearing existing cart on load');
-      await clearCart();
-    };
-    clearExistingCart();
-  }, []);
-
   return {
     items,
     loading,
