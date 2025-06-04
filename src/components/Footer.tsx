@@ -114,7 +114,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Enhanced Bottom Section */}
+        {/* Enhanced Bottom Section with Creator Credit */}
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="mb-4 md:mb-0">
@@ -122,7 +122,7 @@ const Footer = () => {
                 © 2024 GEO - Geometric Design Excellence. All rights reserved.
               </p>
               <p className="text-gray-500 text-sm text-center md:text-left mt-1">
-                Crafted with precision, designed with passion.
+                Crafted with precision, designed with passion by <span className="text-primary font-semibold">Shanto</span>.
               </p>
             </div>
             <div className="flex items-center space-x-6">

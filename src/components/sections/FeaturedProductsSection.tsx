@@ -40,8 +40,15 @@ const FeaturedProductsSection = () => {
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold text-geo-gradient mb-6">Featured GEO Designs</h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">Handpicked geometric masterpieces that showcase the art of precision</p>
+          <h2 className="text-5xl font-bold bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent mb-6">
+            Featured GEO Designs
+          </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Handpicked geometric masterpieces that showcase the art of precision
+          </p>
+          <div className="mt-4 text-sm text-gray-500">
+            Curated by <span className="text-primary font-semibold">Shanto</span>
+          </div>
         </div>
         
         <div className="relative">
@@ -75,7 +82,7 @@ const FeaturedProductsSection = () => {
         
         <div className="text-center mt-12">
           <Link to="/products">
-            <Button className="bg-gradient-geo hover:bg-gradient-geo-dark text-white shadow-geo hover:shadow-geo-lg transform hover:scale-105 transition-all duration-300 text-xl px-12 py-6 btn-3d">
+            <Button className="bg-gradient-to-r from-primary to-orange-600 hover:from-orange-600 hover:to-primary text-white shadow-lg hover:shadow-xl transition-all duration-300 text-xl px-12 py-6">
               <Sparkles className="mr-3 h-6 w-6" />
               Explore All GEO Products
             </Button>

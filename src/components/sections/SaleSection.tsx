@@ -39,10 +39,6 @@ const SaleSection = () => {
 
   return (
     <section className="py-20 bg-gradient-to-br from-red-50 to-orange-50 relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute top-10 left-10 w-20 h-20 bg-red-200/30 rounded-full animate-float"></div>
-      <div className="absolute bottom-20 right-20 w-16 h-16 bg-orange-200/30 transform rotate-45 animate-float" style={{animationDelay: '1s'}}></div>
-      
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-3 mb-6">
@@ -59,6 +55,9 @@ const SaleSection = () => {
           <p className="text-xl text-gray-700 max-w-2xl mx-auto">
             Don't miss out on these incredible deals on premium geometric designs
           </p>
+          <div className="mt-4 text-sm text-gray-600">
+            Special deals curated by <span className="text-red-600 font-semibold">Shanto</span>
+          </div>
         </div>
         
         <div className="relative">
@@ -71,20 +70,18 @@ const SaleSection = () => {
           >
             <CarouselContent className="-ml-2 md:-ml-4">
               {saleProducts.map((product, index) => {
-                const originalPrice = Math.round(product.price * 1.4); // 40% markup for original price
-                const discountPercentage = Math.floor(Math.random() * 30) + 20; // 20-50% discount
+                const originalPrice = Math.round(product.price * 1.4);
+                const discountPercentage = Math.floor(Math.random() * 30) + 20;
                 
                 return (
                   <CarouselItem key={product.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
                     <div className="animate-fade-in relative" style={{animationDelay: `${index * 0.1}s`}}>
-                      {/* Sale badge overlay */}
                       <div className="absolute top-2 right-2 z-10">
                         <Badge className="bg-red-500 text-white font-bold text-sm animate-pulse shadow-lg">
                           {discountPercentage}% OFF
                         </Badge>
                       </div>
-                      <div className="relative overflow-hidden rounded-lg border-2 border-red-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:rotate-1">
-                        <div className="absolute inset-0 bg-gradient-to-tr from-red-500/10 to-orange-500/10"></div>
+                      <div className="relative overflow-hidden rounded-lg border-2 border-red-200 shadow-lg hover:shadow-xl transition-all duration-300">
                         <GeoProductCard 
                           id={product.id}
                           name={product.name}
@@ -108,7 +105,7 @@ const SaleSection = () => {
         
         <div className="text-center mt-12">
           <Link to="/sales">
-            <Button className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-xl px-12 py-6">
+            <Button className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 text-xl px-12 py-6">
               <Flame className="mr-3 h-6 w-6" />
               Shop All Sale Items
               <ArrowRight className="ml-3 h-6 w-6" />
