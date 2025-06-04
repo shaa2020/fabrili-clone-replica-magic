@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -110,7 +109,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       const { data: cartData, error } = await cartQuery;
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error loading cart items:', error);
+        throw error;
+      }
 
       if (!cartData || cartData.length === 0) {
         dispatch({ type: 'SET_ITEMS', payload: [] });
@@ -150,6 +152,37 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
+    }
+  };
+
+  const mergeGuestCartWithUserCart = async () => {
+    if (!user) return;
+    
+    try {
+      const sessionId = getSessionId();
+      
+      // Get guest cart items
+      const { data: guestItems, error: guestError } = await supabase
+        .from('cart_items')
+        .select('*')
+        .eq('session_id', sessionId);
+
+      if (guestError || !guestItems?.length) return;
+
+      // Transfer guest items to user account
+      const updates = guestItems.map(item => ({
+        ...item,
+        user_id: user.id,
+        session_id: null
+      }));
+
+      await supabase.from('cart_items').delete().eq('session_id', sessionId);
+      await supabase.from('cart_items').insert(updates);
+      
+      // Reload cart items
+      await loadCartItems();
+    } catch (error) {
+      console.error('Error merging guest cart:', error);
     }
   };
 
@@ -262,6 +295,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     loadCartItems();
+  }, [user]);
+
+  // Listen for user sign-in to merge carts
+  useEffect(() => {
+    const handleUserSignIn = () => {
+      mergeGuestCartWithUserCart();
+    };
+
+    window.addEventListener('user-signed-in', handleUserSignIn);
+    return () => window.removeEventListener('user-signed-in', handleUserSignIn);
   }, [user]);
 
   return (

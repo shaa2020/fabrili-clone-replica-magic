@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/Header';
@@ -15,13 +15,19 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const { signIn, signInWithGoogle, user } = useAuth();
+  const { signIn, signInWithGoogle, user, loading: authLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
   // Redirect if already logged in
-  if (user) {
-    navigate('/');
+  useEffect(() => {
+    if (!authLoading && user) {
+      navigate('/', { replace: true });
+    }
+  }, [user, authLoading, navigate]);
+
+  // Don't render if still loading auth or user is logged in
+  if (authLoading || user) {
     return null;
   }
 
@@ -29,40 +35,57 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    const { error } = await signIn(email, password);
+    try {
+      const { error } = await signIn(email, password);
 
-    if (error) {
+      if (error) {
+        toast({
+          title: "Login Failed",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Welcome back!",
+          description: "You have successfully logged in.",
+        });
+        navigate('/', { replace: true });
+      }
+    } catch (error) {
       toast({
         title: "Login Failed",
-        description: error.message,
+        description: "An unexpected error occurred",
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Welcome back!",
-        description: "You have successfully logged in.",
-      });
-      navigate('/');
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   const handleGoogleSignIn = async () => {
     setGoogleLoading(true);
     
-    const { error } = await signInWithGoogle();
-    
-    if (error) {
-      console.log('Google Sign In Error:', error);
+    try {
+      const { error } = await signInWithGoogle();
+      
+      if (error) {
+        console.log('Google Sign In Error:', error);
+        toast({
+          title: "Google Sign In Failed",
+          description: "Please make sure Google authentication is enabled in your project settings.",
+          variant: "destructive",
+        });
+        setGoogleLoading(false);
+      }
+      // Note: If successful, the user will be redirected by Google OAuth flow
+    } catch (error) {
       toast({
         title: "Google Sign In Failed",
-        description: "Please make sure Google authentication is enabled in your project settings.",
+        description: "An unexpected error occurred",
         variant: "destructive",
       });
       setGoogleLoading(false);
     }
-    // Note: If successful, the user will be redirected by Google OAuth flow
   };
 
   return (
