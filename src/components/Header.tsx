@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
+import { Flame } from 'lucide-react';
 
 const Header = () => {
   const { user, signOut } = useAuth();
@@ -105,6 +106,19 @@ const Header = () => {
 
           {/* Enhanced Actions */}
           <div className="flex items-center space-x-4">
+            {/* Animated Sale Button */}
+            <Link to="/sales" className="relative group">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="relative overflow-hidden bg-gradient-to-r from-red-500 to-orange-500 text-white border-0 hover:from-red-600 hover:to-orange-600 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              >
+                <Flame className="mr-2 h-4 w-4 animate-pulse" />
+                SALE
+                <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+              </Button>
+            </Link>
+
             <Link to="/cart" className="relative group">
               <Button variant="outline" size="sm" className="relative overflow-hidden hover:bg-black hover:text-white transition-all duration-300 border-2 hover:border-black shadow-md">
                 🛒 Cart

@@ -100,7 +100,7 @@ const SaleSection = () => {
         </div>
         
         <div className="text-center mt-12">
-          <Link to="/products">
+          <Link to="/sales">
             <Button className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 text-xl px-12 py-6">
               <Flame className="mr-3 h-6 w-6" />
               Shop All Sale Items
