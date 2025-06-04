@@ -46,7 +46,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return sum + (price * quantity);
   }, 0) || 0;
 
-  console.log('Cart Debug:', {
+  console.log('Geo Cart Debug:', {
     items: cartOperations.items,
     totalItems,
     totalPrice,

@@ -24,7 +24,7 @@ const ProductCard = ({ id, name, price, image, category, isNew, originalPrice, i
     e.preventDefault();
     e.stopPropagation();
     
-    console.log('Adding to cart:', { id, name });
+    console.log('Adding to Geo cart:', { id, name });
     
     try {
       await addToCart(id, 1);
@@ -33,7 +33,7 @@ const ProductCard = ({ id, name, price, image, category, isNew, originalPrice, i
         description: `Geo ${name} has been added to your cart`,
       });
     } catch (error) {
-      console.error('Error adding to cart:', error);
+      console.error('Error adding to Geo cart:', error);
       toast({
         title: "Error",
         description: "Failed to add item to cart",
@@ -47,7 +47,7 @@ const ProductCard = ({ id, name, price, image, category, isNew, originalPrice, i
       <div className="relative overflow-hidden">
         <img
           src={image}
-          alt={name}
+          alt={`Geo ${name}`}
           className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
         />
         {isNew && (

@@ -8,11 +8,25 @@ import { Card } from '@/components/ui/card';
 import { useCart } from '@/contexts/CartContext';
 
 const Cart = () => {
-  const { items, updateQuantity, removeFromCart } = useCart();
+  const { items, updateQuantity, removeFromCart, loading } = useCart();
 
   const subtotal = items.reduce((sum, item) => sum + (item.products?.price || 0) * item.quantity, 0);
   const shipping = subtotal > 0 ? 150 : 0;
   const total = subtotal + shipping;
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+        <Header />
+        <div className="container mx-auto px-4 py-12">
+          <div className="text-center">
+            <p className="text-lg text-gray-600">Loading your Geo cart...</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
@@ -21,7 +35,7 @@ const Cart = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="text-center mb-12 opacity-0 animate-fade-in">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent mb-4">
-            Shopping Cart
+            Geo Shopping Cart
           </h1>
           <div className="w-24 h-1 bg-gradient-to-r from-primary to-orange-600 mx-auto rounded-full"></div>
         </div>
@@ -31,8 +45,8 @@ const Cart = () => {
             <div className="w-32 h-32 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-8">
               <ShoppingBag size={48} className="text-gray-400" />
             </div>
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Your cart is empty</h2>
-            <p className="text-gray-600 mb-8">Discover amazing products and start shopping!</p>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Your Geo cart is empty</h2>
+            <p className="text-gray-600 mb-8">Discover amazing Geo products and start shopping!</p>
             <Link to="/products">
               <Button className="bg-gradient-to-r from-primary to-orange-600 hover:from-orange-600 hover:to-primary text-white px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                 Continue Shopping
@@ -49,13 +63,13 @@ const Cart = () => {
                     <div className="relative group">
                       <img
                         src={item.products?.images?.[0] || '/placeholder.svg'}
-                        alt={item.products?.name || 'Product'}
+                        alt={`Geo ${item.products?.name || 'Product'}`}
                         className="w-24 h-24 object-cover rounded-xl shadow-md group-hover:scale-105 transition-transform duration-200"
                       />
                       <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 rounded-xl transition-all duration-200"></div>
                     </div>
                     <div className="flex-1">
-                      <h3 className="font-bold text-xl text-gray-800 mb-2">{item.products?.name || 'Product'}</h3>
+                      <h3 className="font-bold text-xl text-gray-800 mb-2">Geo {item.products?.name || 'Product'}</h3>
                       <p className="text-gray-600 mb-1">Size: Standard</p>
                       <p className="text-gray-600 mb-3">Color: Default</p>
                       <p className="text-2xl font-bold bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent">
