@@ -46,9 +46,6 @@ const FeaturedProductsSection = () => {
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Handpicked geometric masterpieces that showcase the art of precision
           </p>
-          <div className="mt-4 text-sm text-gray-500">
-            Curated by <span className="text-primary font-semibold">Shanto</span>
-          </div>
         </div>
         
         <div className="relative">

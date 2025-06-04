@@ -55,9 +55,6 @@ const SaleSection = () => {
           <p className="text-xl text-gray-700 max-w-2xl mx-auto">
             Don't miss out on these incredible deals on premium geometric designs
           </p>
-          <div className="mt-4 text-sm text-gray-600">
-            Special deals curated by <span className="text-red-600 font-semibold">Shanto</span>
-          </div>
         </div>
         
         <div className="relative">
