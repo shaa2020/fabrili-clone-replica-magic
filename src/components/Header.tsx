@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
-import { Flame, MoreVertical, X } from 'lucide-react';
+import { Flame, MoreVertical, X, ChevronDown } from 'lucide-react';
 
 const Header = () => {
   const { user, signOut } = useAuth();
@@ -32,20 +32,20 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white/95 backdrop-blur-md shadow-lg border-b sticky top-0 z-50 transition-all duration-300">
-      <div className="container mx-auto px-4 py-3 sm:py-4">
+    <header className="bg-white/98 backdrop-blur-lg shadow-xl border-b border-gray-100 sticky top-0 z-50 transition-all duration-300">
+      <div className="container mx-auto px-4 py-4 lg:py-5">
         <div className="flex items-center justify-between md:justify-start">
           {/* Mobile Menu Button - Left Side */}
           <button
             onClick={toggleMobileMenu}
-            className="md:hidden p-2 hover:bg-gray-100 rounded-xl transition-all duration-300 transform hover:scale-105 relative"
+            className="md:hidden p-3 hover:bg-gray-50 rounded-2xl transition-all duration-300 transform hover:scale-105 relative shadow-sm border border-gray-100"
             aria-label="Toggle menu"
           >
             <div className="relative">
               {isMobileMenuOpen ? (
-                <X className="h-6 w-6 text-gray-700 transition-all duration-300 rotate-180" />
+                <X className="h-5 w-5 text-gray-700 transition-all duration-300 rotate-180" />
               ) : (
-                <MoreVertical className="h-6 w-6 text-gray-700 transition-all duration-300" />
+                <MoreVertical className="h-5 w-5 text-gray-700 transition-all duration-300" />
               )}
             </div>
           </button>
@@ -53,67 +53,80 @@ const Header = () => {
           {/* Enhanced Logo - Centered on Mobile/Tablet */}
           <Link 
             to="/" 
-            className="flex items-center space-x-2 sm:space-x-3 group absolute left-1/2 transform -translate-x-1/2 md:relative md:left-auto md:transform-none" 
+            className="flex items-center space-x-3 group absolute left-1/2 transform -translate-x-1/2 md:relative md:left-auto md:transform-none" 
             onClick={closeMobileMenu}
           >
             <div className="relative">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-all duration-500 animate-float p-1.5 sm:p-2">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-white rounded-2xl flex items-center justify-center shadow-xl transform group-hover:scale-110 transition-all duration-500 animate-float p-2">
                 <img 
                   src="/lovable-uploads/404332f3-d00d-4521-8ca1-d73b5302608a.png" 
                   alt="GEO Logo" 
                   className="w-full h-full object-contain transition-transform duration-300 group-hover:rotate-12"
                 />
               </div>
-              <div className="absolute -top-0.5 -right-0.5 w-3 h-3 sm:w-4 sm:h-4 bg-gray-400 rounded-full animate-pulse transition-all duration-300 group-hover:bg-black"></div>
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full animate-pulse transition-all duration-300 group-hover:from-black group-hover:to-gray-800"></div>
             </div>
             <div className="flex flex-col">
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-black leading-none transition-all duration-500 group-hover:text-gray-800">
+              <span className="text-3xl sm:text-4xl lg:text-5xl font-bold text-black leading-none transition-all duration-500 group-hover:text-gray-800 tracking-tight">
                 GEO
               </span>
-              <span className="text-xs sm:text-xs text-gray-500 font-medium tracking-wider hidden sm:block transition-all duration-300 group-hover:text-gray-700">
+              <span className="text-xs text-gray-500 font-semibold tracking-widest hidden sm:block transition-all duration-300 group-hover:text-gray-700 uppercase">
                 GEOMETRIC DESIGN
               </span>
             </div>
           </Link>
 
-          {/* Enhanced Navigation - Desktop */}
-          <nav className="hidden md:flex items-center space-x-6 lg:space-x-8 ml-auto">
+          {/* Professional Navigation - Desktop */}
+          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2 ml-auto">
             <Link 
               to="/products" 
-              className={`font-semibold hover:text-black transition-all duration-500 relative group transform hover:scale-105 ${isActive('/products') ? 'text-black' : 'text-gray-700'}`}
+              className={`px-4 lg:px-6 py-3 font-semibold text-sm lg:text-base hover:text-black transition-all duration-300 relative group transform hover:scale-105 rounded-xl hover:bg-gray-50 ${isActive('/products') ? 'text-black bg-gray-50' : 'text-gray-700'}`}
             >
               Products
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-black to-gray-600 transition-all duration-500 group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-black to-gray-600 transition-all duration-300 group-hover:w-8"></span>
             </Link>
             
             <DropdownMenu>
-              <DropdownMenuTrigger className="font-semibold text-gray-700 hover:text-black transition-all duration-500 relative group transform hover:scale-105">
-                Collections
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-black to-gray-600 transition-all duration-500 group-hover:w-full"></span>
+              <DropdownMenuTrigger className="px-4 lg:px-6 py-3 font-semibold text-sm lg:text-base text-gray-700 hover:text-black transition-all duration-300 relative group transform hover:scale-105 rounded-xl hover:bg-gray-50 flex items-center space-x-1">
+                <span>Collections</span>
+                <ChevronDown className="h-4 w-4 transition-transform duration-300 group-hover:rotate-180" />
+                <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-black to-gray-600 transition-all duration-300 group-hover:w-8"></span>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white/98 backdrop-blur-md shadow-2xl border-0 rounded-2xl p-3 animate-fade-in transition-all duration-500">
+              <DropdownMenuContent className="bg-white/98 backdrop-blur-lg shadow-2xl border-0 rounded-2xl p-4 mt-2 w-64 animate-fade-in">
                 <DropdownMenuItem asChild>
-                  <Link to="/category/t-shirts" className="hover:bg-black/10 rounded-xl transition-all duration-300 transform hover:scale-105 py-3 px-4">
-                    <span className="mr-3 text-lg">👕</span> 
-                    <span className="font-medium">Geometric T-Shirts</span>
+                  <Link to="/category/t-shirts" className="hover:bg-gray-50 rounded-xl transition-all duration-300 transform hover:scale-105 py-4 px-4 flex items-center space-x-3 group">
+                    <span className="text-2xl group-hover:scale-110 transition-transform duration-300">👕</span> 
+                    <div>
+                      <span className="font-semibold text-gray-900 block">Geometric T-Shirts</span>
+                      <span className="text-xs text-gray-500">Premium cotton designs</span>
+                    </div>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/category/hoodies" className="hover:bg-black/10 rounded-xl transition-all duration-300 transform hover:scale-105 py-3 px-4">
-                    <span className="mr-3 text-lg">🧥</span> 
-                    <span className="font-medium">Pattern Hoodies</span>
+                  <Link to="/category/hoodies" className="hover:bg-gray-50 rounded-xl transition-all duration-300 transform hover:scale-105 py-4 px-4 flex items-center space-x-3 group">
+                    <span className="text-2xl group-hover:scale-110 transition-transform duration-300">🧥</span> 
+                    <div>
+                      <span className="font-semibold text-gray-900 block">Pattern Hoodies</span>
+                      <span className="text-xs text-gray-500">Comfortable streetwear</span>
+                    </div>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/category/mugs" className="hover:bg-black/10 rounded-xl transition-all duration-300 transform hover:scale-105 py-3 px-4">
-                    <span className="mr-3 text-lg">☕</span> 
-                    <span className="font-medium">Designer Mugs</span>
+                  <Link to="/category/mugs" className="hover:bg-gray-50 rounded-xl transition-all duration-300 transform hover:scale-105 py-4 px-4 flex items-center space-x-3 group">
+                    <span className="text-2xl group-hover:scale-110 transition-transform duration-300">☕</span> 
+                    <div>
+                      <span className="font-semibold text-gray-900 block">Designer Mugs</span>
+                      <span className="text-xs text-gray-500">Ceramic masterpieces</span>
+                    </div>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/category/bags" className="hover:bg-black/10 rounded-xl transition-all duration-300 transform hover:scale-105 py-3 px-4">
-                    <span className="mr-3 text-lg">🎒</span> 
-                    <span className="font-medium">Geometric Bags</span>
+                  <Link to="/category/bags" className="hover:bg-gray-50 rounded-xl transition-all duration-300 transform hover:scale-105 py-4 px-4 flex items-center space-x-3 group">
+                    <span className="text-2xl group-hover:scale-110 transition-transform duration-300">🎒</span> 
+                    <div>
+                      <span className="font-semibold text-gray-900 block">Geometric Bags</span>
+                      <span className="text-xs text-gray-500">Functional art pieces</span>
+                    </div>
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -121,41 +134,41 @@ const Header = () => {
             
             <Link 
               to="/custom-design" 
-              className={`font-semibold hover:text-black transition-all duration-500 relative group transform hover:scale-105 ${isActive('/custom-design') ? 'text-black' : 'text-gray-700'}`}
+              className={`px-4 lg:px-6 py-3 font-semibold text-sm lg:text-base hover:text-black transition-all duration-300 relative group transform hover:scale-105 rounded-xl hover:bg-gray-50 ${isActive('/custom-design') ? 'text-black bg-gray-50' : 'text-gray-700'}`}
             >
               Design Studio
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-black to-gray-600 transition-all duration-500 group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-black to-gray-600 transition-all duration-300 group-hover:w-8"></span>
             </Link>
             
             <Link 
               to="/about" 
-              className={`font-semibold hover:text-black transition-all duration-500 relative group transform hover:scale-105 ${isActive('/about') ? 'text-black' : 'text-gray-700'}`}
+              className={`px-4 lg:px-6 py-3 font-semibold text-sm lg:text-base hover:text-black transition-all duration-300 relative group transform hover:scale-105 rounded-xl hover:bg-gray-50 ${isActive('/about') ? 'text-black bg-gray-50' : 'text-gray-700'}`}
             >
               About GEO
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-black to-gray-600 transition-all duration-500 group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-black to-gray-600 transition-all duration-300 group-hover:w-8"></span>
             </Link>
           </nav>
 
           {/* Enhanced Actions - Desktop */}
-          <div className="hidden md:flex items-center space-x-3 lg:space-x-4 ml-6">
-            {/* Animated Sale Button */}
+          <div className="hidden md:flex items-center space-x-3 ml-6 lg:ml-8">
+            {/* Premium Sale Button */}
             <Link to="/sales" className="relative group">
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="relative overflow-hidden bg-gradient-to-r from-red-500 to-orange-500 text-white border-0 hover:from-red-600 hover:to-orange-600 shadow-lg hover:shadow-2xl transform hover:scale-110 transition-all duration-500"
+                className="relative overflow-hidden bg-gradient-to-r from-red-500 to-orange-500 text-white border-0 hover:from-red-600 hover:to-orange-600 shadow-lg hover:shadow-2xl transform hover:scale-110 transition-all duration-500 px-4 py-2"
               >
-                <Flame className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 animate-pulse" />
-                <span className="text-xs sm:text-sm font-bold">SALE</span>
+                <Flame className="mr-2 h-4 w-4 animate-pulse" />
+                <span className="font-bold text-sm">SALE</span>
                 <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
               </Button>
             </Link>
 
             <Link to="/cart" className="relative group">
-              <Button variant="outline" size="sm" className="relative overflow-hidden hover:bg-black hover:text-white transition-all duration-500 border-2 hover:border-black shadow-md transform hover:scale-105">
-                <span className="text-xs sm:text-sm font-medium">🛒 Cart</span>
+              <Button variant="outline" size="sm" className="relative overflow-hidden hover:bg-black hover:text-white transition-all duration-500 border-2 hover:border-black shadow-md transform hover:scale-105 px-4 py-2">
+                <span className="font-medium text-sm">🛒 Cart</span>
                 {cartCount > 0 && (
-                  <Badge className="ml-1 sm:ml-2 bg-black text-white animate-bounce shadow-lg text-xs transform hover:scale-110 transition-all duration-300">
+                  <Badge className="ml-2 bg-black text-white animate-bounce shadow-lg text-xs transform hover:scale-110 transition-all duration-300 min-w-[20px] h-5 flex items-center justify-center">
                     {cartCount}
                   </Badge>
                 )}
@@ -165,11 +178,11 @@ const Header = () => {
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="hover:bg-black hover:text-white transition-all duration-500 shadow-md transform hover:scale-105">
-                    <span className="text-xs sm:text-sm font-medium">👤 Account</span>
+                  <Button variant="outline" size="sm" className="hover:bg-black hover:text-white transition-all duration-500 shadow-md transform hover:scale-105 px-4 py-2">
+                    <span className="font-medium text-sm">👤 Account</span>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-white/98 backdrop-blur-md shadow-2xl border-0 rounded-2xl animate-fade-in">
+                <DropdownMenuContent className="bg-white/98 backdrop-blur-lg shadow-2xl border-0 rounded-2xl animate-fade-in">
                   <DropdownMenuItem onClick={signOut} className="hover:bg-black/10 rounded-xl transition-all duration-300 py-3 px-4 font-medium">
                     Sign Out
                   </DropdownMenuItem>
@@ -178,13 +191,13 @@ const Header = () => {
             ) : (
               <>
                 <Link to="/login">
-                  <Button variant="outline" size="sm" className="hover:bg-black hover:text-white transition-all duration-500 shadow-md text-xs sm:text-sm transform hover:scale-105">
-                    Login
+                  <Button variant="outline" size="sm" className="hover:bg-black hover:text-white transition-all duration-500 shadow-md transform hover:scale-105 px-4 py-2">
+                    <span className="font-medium text-sm">Login</span>
                   </Button>
                 </Link>
                 <Link to="/signup">
-                  <Button className="bg-black hover:bg-gray-800 text-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-110 text-xs sm:text-sm" size="sm">
-                    Join GEO
+                  <Button className="bg-black hover:bg-gray-800 text-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-110 px-4 py-2" size="sm">
+                    <span className="font-semibold text-sm">Join GEO</span>
                   </Button>
                 </Link>
               </>
@@ -194,8 +207,8 @@ const Header = () => {
           {/* Mobile Cart Icon - Right Side */}
           <div className="flex md:hidden items-center">
             <Link to="/cart" className="relative group">
-              <Button variant="outline" size="sm" className="relative overflow-hidden hover:bg-black hover:text-white transition-all duration-500 border-2 hover:border-black shadow-md p-2 transform hover:scale-105">
-                <span className="text-sm">🛒</span>
+              <Button variant="outline" size="sm" className="relative overflow-hidden hover:bg-black hover:text-white transition-all duration-500 border-2 hover:border-black shadow-md p-2 transform hover:scale-105 rounded-2xl">
+                <span className="text-lg">🛒</span>
                 {cartCount > 0 && (
                   <Badge className="absolute -top-1 -right-1 bg-black text-white animate-bounce shadow-lg text-xs min-w-[18px] h-[18px] flex items-center justify-center transform hover:scale-110 transition-all duration-300">
                     {cartCount}
@@ -212,33 +225,53 @@ const Header = () => {
             ? 'max-h-screen opacity-100 mt-6 scale-100' 
             : 'max-h-0 opacity-0 overflow-hidden scale-95'
         }`}>
-          <nav className="flex flex-col space-y-4 pb-6 border-t border-gray-200 pt-6 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl">
+          <nav className="flex flex-col space-y-2 pb-6 border-t border-gray-100 pt-6 bg-white/98 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-100">
             <Link 
               to="/products" 
               onClick={closeMobileMenu}
-              className={`font-semibold py-3 px-4 rounded-xl transition-all duration-500 transform hover:scale-105 hover:shadow-md ${
+              className={`font-semibold py-4 px-6 rounded-xl transition-all duration-500 transform hover:scale-105 hover:shadow-md flex items-center space-x-3 ${
                 isActive('/products') 
-                  ? 'text-black bg-gray-100 shadow-md' 
+                  ? 'text-black bg-gray-50 shadow-md border-l-4 border-black' 
                   : 'text-gray-700 hover:text-black hover:bg-gray-50'
               }`}
             >
-              📱 Products
+              <span className="text-xl">📱</span>
+              <span>Products</span>
             </Link>
             
-            <div className="px-4 py-2">
-              <span className="font-bold text-gray-800 text-sm mb-3 block">🎨 Collections</span>
-              <div className="ml-4 space-y-3">
-                <Link to="/category/t-shirts" onClick={closeMobileMenu} className="block text-gray-600 hover:text-black transition-all duration-500 py-2 px-3 rounded-lg hover:bg-gray-50 transform hover:scale-105">
-                  👕 Geometric T-Shirts
+            <div className="px-6 py-3">
+              <span className="font-bold text-gray-900 text-base mb-4 block flex items-center space-x-2">
+                <span className="text-xl">🎨</span>
+                <span>Collections</span>
+              </span>
+              <div className="ml-8 space-y-3">
+                <Link to="/category/t-shirts" onClick={closeMobileMenu} className="block text-gray-600 hover:text-black transition-all duration-500 py-3 px-4 rounded-lg hover:bg-gray-50 transform hover:scale-105 flex items-center space-x-3">
+                  <span className="text-lg">👕</span>
+                  <div>
+                    <span className="font-medium block">Geometric T-Shirts</span>
+                    <span className="text-xs text-gray-400">Premium cotton designs</span>
+                  </div>
                 </Link>
-                <Link to="/category/hoodies" onClick={closeMobileMenu} className="block text-gray-600 hover:text-black transition-all duration-500 py-2 px-3 rounded-lg hover:bg-gray-50 transform hover:scale-105">
-                  🧥 Pattern Hoodies
+                <Link to="/category/hoodies" onClick={closeMobileMenu} className="block text-gray-600 hover:text-black transition-all duration-500 py-3 px-4 rounded-lg hover:bg-gray-50 transform hover:scale-105 flex items-center space-x-3">
+                  <span className="text-lg">🧥</span>
+                  <div>
+                    <span className="font-medium block">Pattern Hoodies</span>
+                    <span className="text-xs text-gray-400">Comfortable streetwear</span>
+                  </div>
                 </Link>
-                <Link to="/category/mugs" onClick={closeMobileMenu} className="block text-gray-600 hover:text-black transition-all duration-500 py-2 px-3 rounded-lg hover:bg-gray-50 transform hover:scale-105">
-                  ☕ Designer Mugs
+                <Link to="/category/mugs" onClick={closeMobileMenu} className="block text-gray-600 hover:text-black transition-all duration-500 py-3 px-4 rounded-lg hover:bg-gray-50 transform hover:scale-105 flex items-center space-x-3">
+                  <span className="text-lg">☕</span>
+                  <div>
+                    <span className="font-medium block">Designer Mugs</span>
+                    <span className="text-xs text-gray-400">Ceramic masterpieces</span>
+                  </div>
                 </Link>
-                <Link to="/category/bags" onClick={closeMobileMenu} className="block text-gray-600 hover:text-black transition-all duration-500 py-2 px-3 rounded-lg hover:bg-gray-50 transform hover:scale-105">
-                  🎒 Geometric Bags
+                <Link to="/category/bags" onClick={closeMobileMenu} className="block text-gray-600 hover:text-black transition-all duration-500 py-3 px-4 rounded-lg hover:bg-gray-50 transform hover:scale-105 flex items-center space-x-3">
+                  <span className="text-lg">🎒</span>
+                  <div>
+                    <span className="font-medium block">Geometric Bags</span>
+                    <span className="text-xs text-gray-400">Functional art pieces</span>
+                  </div>
                 </Link>
               </div>
             </div>
@@ -246,33 +279,35 @@ const Header = () => {
             <Link 
               to="/custom-design" 
               onClick={closeMobileMenu}
-              className={`font-semibold py-3 px-4 rounded-xl transition-all duration-500 transform hover:scale-105 hover:shadow-md ${
+              className={`font-semibold py-4 px-6 rounded-xl transition-all duration-500 transform hover:scale-105 hover:shadow-md flex items-center space-x-3 ${
                 isActive('/custom-design') 
-                  ? 'text-black bg-gray-100 shadow-md' 
+                  ? 'text-black bg-gray-50 shadow-md border-l-4 border-black' 
                   : 'text-gray-700 hover:text-black hover:bg-gray-50'
               }`}
             >
-              🎨 Design Studio
+              <span className="text-xl">🎨</span>
+              <span>Design Studio</span>
             </Link>
             
             <Link 
               to="/about" 
               onClick={closeMobileMenu}
-              className={`font-semibold py-3 px-4 rounded-xl transition-all duration-500 transform hover:scale-105 hover:shadow-md ${
+              className={`font-semibold py-4 px-6 rounded-xl transition-all duration-500 transform hover:scale-105 hover:shadow-md flex items-center space-x-3 ${
                 isActive('/about') 
-                  ? 'text-black bg-gray-100 shadow-md' 
+                  ? 'text-black bg-gray-50 shadow-md border-l-4 border-black' 
                   : 'text-gray-700 hover:text-black hover:bg-gray-50'
               }`}
             >
-              ℹ️ About GEO
+              <span className="text-xl">ℹ️</span>
+              <span>About GEO</span>
             </Link>
 
-            <div className="pt-4 border-t border-gray-200 space-y-3">
+            <div className="pt-6 border-t border-gray-100 space-y-3 px-6">
               <Link to="/sales" onClick={closeMobileMenu} className="block">
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="w-full bg-gradient-to-r from-red-500 to-orange-500 text-white border-0 hover:from-red-600 hover:to-orange-600 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105"
+                  className="w-full bg-gradient-to-r from-red-500 to-orange-500 text-white border-0 hover:from-red-600 hover:to-orange-600 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 py-3"
                 >
                   <Flame className="mr-2 h-4 w-4 animate-pulse" />
                   <span className="font-bold">🔥 SALE</span>
@@ -284,19 +319,19 @@ const Header = () => {
                   variant="outline" 
                   size="sm" 
                   onClick={() => { signOut(); closeMobileMenu(); }}
-                  className="w-full hover:bg-black hover:text-white transition-all duration-500 shadow-md transform hover:scale-105"
+                  className="w-full hover:bg-black hover:text-white transition-all duration-500 shadow-md transform hover:scale-105 py-3"
                 >
                   👤 Sign Out
                 </Button>
               ) : (
                 <div className="space-y-3">
                   <Link to="/login" onClick={closeMobileMenu} className="block">
-                    <Button variant="outline" size="sm" className="w-full hover:bg-black hover:text-white transition-all duration-500 shadow-md transform hover:scale-105">
+                    <Button variant="outline" size="sm" className="w-full hover:bg-black hover:text-white transition-all duration-500 shadow-md transform hover:scale-105 py-3">
                       🔐 Login
                     </Button>
                   </Link>
                   <Link to="/signup" onClick={closeMobileMenu} className="block">
-                    <Button className="w-full bg-black hover:bg-gray-800 text-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105" size="sm">
+                    <Button className="w-full bg-black hover:bg-gray-800 text-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 py-3" size="sm">
                       ✨ Join GEO
                     </Button>
                   </Link>
