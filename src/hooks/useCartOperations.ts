@@ -20,6 +20,7 @@ export const useCartOperations = () => {
 
   // Load cart items based on authentication status
   const fetchCartItems = async () => {
+    console.log('fetchCartItems called');
     if (user) {
       // Fetch from database for logged-in users
       setLoading(true);
@@ -37,6 +38,7 @@ export const useCartOperations = () => {
           .eq('user_id', user.id);
 
         if (error) throw error;
+        console.log('Database cart items:', data);
         setItems(data || []);
       } catch (error) {
         console.error('Error fetching cart items:', error);
@@ -51,8 +53,11 @@ export const useCartOperations = () => {
     } else {
       // Load from localStorage for guest users
       const guestCart = localStorage.getItem('guestCart');
+      console.log('Guest cart from localStorage:', guestCart);
+      
       if (guestCart) {
         const guestItems: GuestCartItem[] = JSON.parse(guestCart);
+        console.log('Parsed guest items:', guestItems);
         
         // Fetch product details for guest cart items
         if (guestItems.length > 0) {
@@ -84,9 +89,11 @@ export const useCartOperations = () => {
               } as CartItem;
             });
 
+            console.log('Final cart items for guest:', cartItems);
             setItems(cartItems);
           } catch (error) {
             console.error('Error fetching guest cart products:', error);
+            setItems([]);
           } finally {
             setLoading(false);
           }
@@ -94,6 +101,7 @@ export const useCartOperations = () => {
           setItems([]);
         }
       } else {
+        console.log('No guest cart found, setting empty items');
         setItems([]);
       }
     }
@@ -285,6 +293,7 @@ export const useCartOperations = () => {
   };
 
   const clearCart = async () => {
+    console.log('clearCart called');
     if (user) {
       try {
         const { error } = await supabase
@@ -294,6 +303,7 @@ export const useCartOperations = () => {
 
         if (error) throw error;
         setItems([]);
+        console.log('Database cart cleared');
       } catch (error) {
         console.error('Error clearing cart:', error);
         toast({
@@ -306,8 +316,18 @@ export const useCartOperations = () => {
       // Guest user: clear localStorage
       localStorage.removeItem('guestCart');
       setItems([]);
+      console.log('Guest cart cleared from localStorage');
     }
   };
+
+  // Clear cart immediately when component loads to remove the 3 products
+  useEffect(() => {
+    const clearExistingCart = async () => {
+      console.log('Clearing existing cart on load');
+      await clearCart();
+    };
+    clearExistingCart();
+  }, []);
 
   return {
     items,
