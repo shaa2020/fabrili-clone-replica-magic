@@ -244,16 +244,21 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const sessionId = getSessionId();
       
-      let query = supabase.from('cart_items').delete();
-      
       if (user) {
-        query = query.eq('user_id', user.id);
+        const { error } = await supabase
+          .from('cart_items')
+          .delete()
+          .eq('user_id', user.id);
+        
+        if (error) throw error;
       } else {
-        query = query.eq('session_id', sessionId);
+        const { error } = await supabase
+          .from('cart_items')
+          .delete()
+          .eq('session_id', sessionId);
+        
+        if (error) throw error;
       }
-
-      const { error } = await query;
-      if (error) throw error;
 
       dispatch({ type: 'CLEAR_CART' });
     } catch (error) {
