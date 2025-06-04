@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
-import { Flame, MoreVertical, X, ChevronDown } from 'lucide-react';
+import { Flame, MoreVertical, X, ChevronDown, ShoppingCart } from 'lucide-react';
 
 const Header = () => {
   const { user, signOut } = useAuth();
@@ -44,7 +44,7 @@ const Header = () => {
   return (
     <header className={`bg-white/95 backdrop-blur-lg shadow-lg border-b border-gray-100 sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'py-2 shadow-xl' : 'py-4 lg:py-5'}`}>
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between md:justify-start">
+        <div className="flex items-center justify-between">
           {/* Mobile Menu Button - Left Side */}
           <button
             onClick={toggleMobileMenu}
@@ -63,14 +63,14 @@ const Header = () => {
           {/* Enhanced Logo - Centered on Mobile/Tablet */}
           <Link 
             to="/" 
-            className="flex items-center space-x-3 group absolute left-1/2 transform -translate-x-1/2 md:relative md:left-auto md:transform-none" 
+            className="flex items-center space-x-3 group md:flex-1" 
             onClick={closeMobileMenu}
           >
             <div className="relative">
               <div className={`bg-white rounded-2xl flex items-center justify-center shadow-xl transform group-hover:scale-110 transition-all duration-500 animate-float p-2 ${isScrolled ? 'w-10 h-10 sm:w-12 sm:h-12' : 'w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16'}`}>
                 <img 
                   src="/lovable-uploads/404332f3-d00d-4521-8ca1-d73b5302608a.png" 
-                  alt="GEO Logo" 
+                  alt="Logo" 
                   className="w-full h-full object-contain transition-transform duration-300 group-hover:rotate-12"
                 />
               </div>
@@ -78,16 +78,16 @@ const Header = () => {
             </div>
             <div className="flex flex-col">
               <span className={`font-bold text-black leading-none transition-all duration-500 group-hover:text-gray-800 tracking-tight ${isScrolled ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl lg:text-5xl'}`}>
-                GEO
+                Geometric Design
               </span>
               <span className={`text-gray-500 font-semibold tracking-widest transition-all duration-300 group-hover:text-gray-700 uppercase ${isScrolled ? 'text-xs hidden' : 'text-xs hidden sm:block'}`}>
-                GEOMETRIC DESIGN
+                Premium Quality
               </span>
             </div>
           </Link>
 
           {/* Professional Navigation - Desktop */}
-          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2 ml-auto">
+          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
             <Link 
               to="/products" 
               className={`px-4 lg:px-6 py-3 font-semibold text-sm lg:text-base hover:text-black transition-all duration-300 relative group transform hover:scale-105 rounded-xl hover:bg-gray-50 ${isActive('/products') ? 'text-black bg-gray-50' : 'text-gray-700'}`}
@@ -176,7 +176,8 @@ const Header = () => {
 
             <Link to="/cart" className="relative group">
               <Button variant="outline" size="sm" className="relative overflow-hidden hover:bg-black hover:text-white transition-all duration-500 border-2 hover:border-black shadow-md transform hover:scale-105 px-4 py-2">
-                <span className="font-medium text-sm">🛒 Cart</span>
+                <ShoppingCart className="mr-2 h-4 w-4" />
+                <span className="font-medium text-sm">Cart</span>
                 {totalItems > 0 && (
                   <Badge className="ml-2 bg-black text-white animate-bounce shadow-lg text-xs transform hover:scale-110 transition-all duration-300 min-w-[20px] h-5 flex items-center justify-center">
                     {totalItems}
@@ -214,16 +215,18 @@ const Header = () => {
             )}
           </div>
 
-          {/* Mobile Cart Icon - Right Side */}
+          {/* Enhanced Mobile Cart Icon - Right Side */}
           <div className="flex md:hidden items-center">
             <Link to="/cart" className="relative group">
-              <Button variant="outline" size="sm" className="relative overflow-hidden hover:bg-black hover:text-white transition-all duration-500 border-2 hover:border-black shadow-md p-2 transform hover:scale-105 rounded-2xl">
-                <span className="text-lg">🛒</span>
-                {totalItems > 0 && (
-                  <Badge className="absolute -top-1 -right-1 bg-black text-white animate-bounce shadow-lg text-xs min-w-[18px] h-[18px] flex items-center justify-center transform hover:scale-110 transition-all duration-300">
-                    {totalItems}
-                  </Badge>
-                )}
+              <Button variant="outline" size="sm" className="relative overflow-hidden hover:bg-black hover:text-white transition-all duration-500 border-2 hover:border-black shadow-md transform hover:scale-105 rounded-2xl p-3">
+                <div className="flex items-center">
+                  <ShoppingCart className="h-5 w-5" />
+                  {totalItems > 0 && (
+                    <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full min-w-[20px] h-5 flex items-center justify-center animate-bounce shadow-lg border-2 border-white">
+                      {totalItems}
+                    </div>
+                  )}
+                </div>
               </Button>
             </Link>
           </div>
@@ -236,6 +239,22 @@ const Header = () => {
             : 'max-h-0 opacity-0 overflow-hidden scale-95'
         }`}>
           <nav className="flex flex-col space-y-2 pb-6 border-t border-gray-100 pt-6 bg-white/98 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-100">
+            {/* Mobile Cart Summary */}
+            <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl mx-4 mb-4">
+              <Link to="/cart" onClick={closeMobileMenu} className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <ShoppingCart className="h-6 w-6 text-gray-700" />
+                  <span className="font-semibold text-gray-900">Shopping Cart</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Badge className="bg-black text-white font-bold">
+                    {totalItems} items
+                  </Badge>
+                  <span className="text-sm text-gray-600">→</span>
+                </div>
+              </Link>
+            </div>
+
             <Link 
               to="/products" 
               onClick={closeMobileMenu}
