@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
@@ -20,7 +20,14 @@ export const useCartOperations = () => {
 
   // Load cart items based on authentication status
   const fetchCartItems = async () => {
-    console.log('fetchCartItems called');
+    console.log('fetchCartItems called, user state:', user);
+    
+    // Don't fetch if user state is still undefined (initial auth loading)
+    if (user === undefined) {
+      console.log('User state undefined, skipping cart fetch');
+      return;
+    }
+    
     if (user) {
       // Fetch from database for logged-in users
       setLoading(true);
