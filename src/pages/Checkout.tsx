@@ -90,11 +90,14 @@ const Checkout = () => {
       const orderNumber = `GEO-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
       // Prepare order data with correct types
+      const orderStatus = 'pending';
+      const paymentStatus = paymentMethod === 'cod' ? 'pending' : 'paid';
+      
       const orderData = {
         user_id: user?.id || null,
         order_number: orderNumber,
-        status: 'pending' as const,
-        payment_status: (paymentMethod === 'cod' ? 'pending' : 'paid') as const,
+        status: orderStatus,
+        payment_status: paymentStatus,
         payment_method: paymentMethod,
         subtotal: totalPrice,
         shipping_amount: shipping,
