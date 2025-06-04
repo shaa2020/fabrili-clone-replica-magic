@@ -25,16 +25,16 @@ const GeoProductCard = ({ id, name, price, image, category, isNew, originalPrice
     e.preventDefault();
     e.stopPropagation();
     
-    console.log('Adding to Geo cart:', { id, name });
+    console.log('Adding to GEO cart:', { id, name });
     
     try {
       await addToCart(id, 1);
       toast({
         title: "Added to cart",
-        description: `Geo ${name} has been added to your cart`,
+        description: `GEO ${name} has been added to your cart`,
       });
     } catch (error) {
-      console.error('Error adding to Geo cart:', error);
+      console.error('Error adding to GEO cart:', error);
       toast({
         title: "Error",
         description: "Failed to add item to cart",
@@ -49,7 +49,7 @@ const GeoProductCard = ({ id, name, price, image, category, isNew, originalPrice
         <div className="relative aspect-square overflow-hidden">
           <img
             src={image}
-            alt={`Geo ${name}`}
+            alt={`GEO ${name}`}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
           {isNew && (
@@ -66,7 +66,7 @@ const GeoProductCard = ({ id, name, price, image, category, isNew, originalPrice
         <CardContent className="p-3 sm:p-4 flex flex-col h-full">
           <p className="text-xs sm:text-sm text-gray-500 mb-1 uppercase tracking-wide">{category}</p>
           <h3 className="font-semibold text-base sm:text-lg mb-2 line-clamp-2 text-gray-800 group-hover:text-primary transition-colors flex-grow">
-            Geo {name}
+            GEO {name}
           </h3>
           <div className="flex items-center justify-between mt-auto">
             <div className="flex flex-col">

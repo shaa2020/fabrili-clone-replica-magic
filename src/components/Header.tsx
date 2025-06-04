@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -69,7 +70,7 @@ const Header = () => {
               <div className={`bg-white rounded-2xl flex items-center justify-center shadow-xl transform group-hover:scale-110 transition-all duration-500 animate-float p-2 ${isScrolled ? 'w-10 h-10 sm:w-12 sm:h-12' : 'w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16'}`}>
                 <img 
                   src="/lovable-uploads/404332f3-d00d-4521-8ca1-d73b5302608a.png" 
-                  alt="Logo" 
+                  alt="GEO Logo" 
                   className="w-full h-full object-contain transition-transform duration-300 group-hover:rotate-12"
                 />
               </div>
@@ -77,7 +78,7 @@ const Header = () => {
             </div>
             <div className="flex flex-col">
               <span className={`font-bold text-black leading-none transition-all duration-500 group-hover:text-gray-800 tracking-tight ${isScrolled ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl lg:text-5xl'}`}>
-                Geo Design
+                GEO
               </span>
               <span className={`text-gray-500 font-semibold tracking-widest transition-all duration-300 group-hover:text-gray-700 uppercase ${isScrolled ? 'text-xs hidden' : 'text-xs hidden sm:block'}`}>
                 Premium Quality

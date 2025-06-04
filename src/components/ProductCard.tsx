@@ -24,16 +24,16 @@ const ProductCard = ({ id, name, price, image, category, isNew, originalPrice, i
     e.preventDefault();
     e.stopPropagation();
     
-    console.log('Adding to Geo cart:', { id, name });
+    console.log('Adding to GEO cart:', { id, name });
     
     try {
       await addToCart(id, 1);
       toast({
         title: "Added to cart",
-        description: `Geo ${name} has been added to your cart`,
+        description: `GEO ${name} has been added to your cart`,
       });
     } catch (error) {
-      console.error('Error adding to Geo cart:', error);
+      console.error('Error adding to GEO cart:', error);
       toast({
         title: "Error",
         description: "Failed to add item to cart",
@@ -47,7 +47,7 @@ const ProductCard = ({ id, name, price, image, category, isNew, originalPrice, i
       <div className="relative overflow-hidden">
         <img
           src={image}
-          alt={`Geo ${name}`}
+          alt={`GEO ${name}`}
           className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
         />
         {isNew && (
@@ -60,7 +60,7 @@ const ProductCard = ({ id, name, price, image, category, isNew, originalPrice, i
       <div className="p-4">
         <p className="text-sm text-gray-500 mb-1 uppercase tracking-wide">{category}</p>
         <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-primary transition-colors">
-          Geo {name}
+          GEO {name}
         </h3>
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
