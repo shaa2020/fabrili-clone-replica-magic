@@ -18,14 +18,11 @@ export const useCartOperations = () => {
   const { user } = useAuth();
   const { toast } = useToast();
 
-  // Load cart items based on authentication status
   const fetchCartItems = async () => {
-    console.log('fetchCartItems called, user state:', user);
-    
-    if (user) {
-      // Fetch from database for logged-in users
-      setLoading(true);
-      try {
+    setLoading(true);
+    try {
+      if (user) {
+        // Fetch from database for logged-in users
         const { data, error } = await supabase
           .from('cart_items')
           .select(`
@@ -39,31 +36,14 @@ export const useCartOperations = () => {
           .eq('user_id', user.id);
 
         if (error) throw error;
-        console.log('Database cart items:', data);
         setItems(data || []);
-      } catch (error) {
-        console.error('Error fetching cart items:', error);
-        toast({
-          title: "Error",
-          description: "Failed to load cart items",
-          variant: "destructive",
-        });
-      } finally {
-        setLoading(false);
-      }
-    } else {
-      // Load from localStorage for guest users
-      const guestCart = localStorage.getItem('guestCart');
-      console.log('Guest cart from localStorage:', guestCart);
-      
-      if (guestCart) {
-        const guestItems: GuestCartItem[] = JSON.parse(guestCart);
-        console.log('Parsed guest items:', guestItems);
-        
-        // Fetch product details for guest cart items
-        if (guestItems.length > 0) {
-          setLoading(true);
-          try {
+      } else {
+        // Load from localStorage for guest users
+        const guestCart = localStorage.getItem('guestCart');
+        if (guestCart) {
+          const guestItems: GuestCartItem[] = JSON.parse(guestCart);
+          
+          if (guestItems.length > 0) {
             const productIds = guestItems.map(item => item.product_id);
             const { data: products, error } = await supabase
               .from('products')
@@ -90,62 +70,24 @@ export const useCartOperations = () => {
               } as CartItem;
             });
 
-            console.log('Final cart items for guest:', cartItems);
             setItems(cartItems);
-          } catch (error) {
-            console.error('Error fetching guest cart products:', error);
+          } else {
             setItems([]);
-          } finally {
-            setLoading(false);
           }
         } else {
           setItems([]);
         }
-      } else {
-        console.log('No guest cart found, setting empty items');
-        setItems([]);
       }
-    }
-  };
-
-  // Sync guest cart to database when user logs in
-  const syncGuestCartToDatabase = async () => {
-    if (!user) return;
-
-    const guestCart = localStorage.getItem('guestCart');
-    if (guestCart) {
-      const guestItems: GuestCartItem[] = JSON.parse(guestCart);
-      
-      if (guestItems.length > 0) {
-        try {
-          // Insert guest cart items to database
-          const cartItemsToInsert = guestItems.map(item => ({
-            user_id: user.id,
-            product_id: item.product_id,
-            quantity: item.quantity
-          }));
-
-          const { error } = await supabase
-            .from('cart_items')
-            .insert(cartItemsToInsert);
-
-          if (error) throw error;
-
-          // Clear guest cart after successful sync
-          localStorage.removeItem('guestCart');
-          
-          // Refresh cart items
-          await fetchCartItems();
-        } catch (error) {
-          console.error('Error syncing guest cart:', error);
-        }
-      }
+    } catch (error) {
+      console.error('Error fetching cart items:', error);
+      setItems([]);
+    } finally {
+      setLoading(false);
     }
   };
 
   const addToCart = async (productId: string, quantity: number) => {
     if (user) {
-      // Logged-in user: add to database
       try {
         const existingItem = items.find(item => item.product_id === productId);
 
@@ -162,12 +104,12 @@ export const useCartOperations = () => {
 
           if (error) throw error;
           await fetchCartItems();
-          
-          toast({
-            title: "Added to cart",
-            description: "Item has been added to your cart",
-          });
         }
+
+        toast({
+          title: "Added to cart",
+          description: "Item has been added to your cart",
+        });
       } catch (error) {
         console.error('Error adding to cart:', error);
         toast({
@@ -207,7 +149,6 @@ export const useCartOperations = () => {
 
   const removeFromCart = async (itemId: string) => {
     if (user) {
-      // Logged-in user: remove from database
       try {
         const { error } = await supabase
           .from('cart_items')
@@ -230,7 +171,6 @@ export const useCartOperations = () => {
         });
       }
     } else {
-      // Guest user: remove from localStorage
       const guestCart = localStorage.getItem('guestCart');
       if (guestCart) {
         let guestItems: GuestCartItem[] = JSON.parse(guestCart);
@@ -253,7 +193,6 @@ export const useCartOperations = () => {
     }
 
     if (user) {
-      // Logged-in user: update in database
       try {
         const { error } = await supabase
           .from('cart_items')
@@ -271,7 +210,6 @@ export const useCartOperations = () => {
         });
       }
     } else {
-      // Guest user: update in localStorage
       const guestCart = localStorage.getItem('guestCart');
       if (guestCart) {
         let guestItems: GuestCartItem[] = JSON.parse(guestCart);
@@ -287,7 +225,6 @@ export const useCartOperations = () => {
   };
 
   const clearCart = async () => {
-    console.log('clearCart called');
     if (user) {
       try {
         const { error } = await supabase
@@ -297,7 +234,6 @@ export const useCartOperations = () => {
 
         if (error) throw error;
         setItems([]);
-        console.log('Database cart cleared');
       } catch (error) {
         console.error('Error clearing cart:', error);
         toast({
@@ -307,12 +243,15 @@ export const useCartOperations = () => {
         });
       }
     } else {
-      // Guest user: clear localStorage
       localStorage.removeItem('guestCart');
       setItems([]);
-      console.log('Guest cart cleared from localStorage');
     }
   };
+
+  // Fetch cart items when user changes or component mounts
+  useEffect(() => {
+    fetchCartItems();
+  }, [user]);
 
   return {
     items,
