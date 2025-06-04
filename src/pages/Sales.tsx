@@ -83,27 +83,34 @@ const Sales = () => {
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {saleProducts.map((product, index) => (
-              <div key={product.id} className="animate-fade-in relative" style={{animationDelay: `${index * 0.1}s`}}>
-                {/* Sale badge overlay */}
-                <div className="absolute top-2 right-2 z-10">
-                  <Badge className="bg-red-500 text-white font-bold text-sm animate-pulse">
-                    {Math.floor(Math.random() * 30) + 20}% OFF
-                  </Badge>
+            {saleProducts.map((product, index) => {
+              const originalPrice = Math.round(product.price * 1.4); // 40% markup for original price
+              const discountPercentage = Math.floor(Math.random() * 30) + 20; // 20-50% discount
+              
+              return (
+                <div key={product.id} className="animate-fade-in relative" style={{animationDelay: `${index * 0.1}s`}}>
+                  {/* Sale badge overlay */}
+                  <div className="absolute top-2 right-2 z-10">
+                    <Badge className="bg-red-500 text-white font-bold text-sm animate-pulse shadow-lg">
+                      {discountPercentage}% OFF
+                    </Badge>
+                  </div>
+                  <div className="relative overflow-hidden rounded-lg border-2 border-red-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:rotate-1">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-red-500/10 to-orange-500/10"></div>
+                    <GeoProductCard 
+                      id={product.id}
+                      name={product.name}
+                      price={product.price}
+                      originalPrice={originalPrice}
+                      isOnSale={true}
+                      image={product.images?.[0] || '/placeholder.svg'}
+                      category={product.categories?.name || 'Geometric Art'}
+                      isNew={product.is_new || false}
+                    />
+                  </div>
                 </div>
-                <div className="relative overflow-hidden rounded-lg border-2 border-red-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-red-500/10 to-orange-500/10"></div>
-                  <GeoProductCard 
-                    id={product.id}
-                    name={product.name}
-                    price={product.price}
-                    image={product.images?.[0] || '/placeholder.svg'}
-                    category={product.categories?.name || 'Geometric Art'}
-                    isNew={product.is_new || false}
-                  />
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
           
           {saleProducts.length === 0 && (

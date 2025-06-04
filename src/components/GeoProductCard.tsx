@@ -12,9 +12,11 @@ interface ProductCardProps {
   image: string;
   category: string;
   isNew?: boolean;
+  originalPrice?: number;
+  isOnSale?: boolean;
 }
 
-const GeoProductCard = ({ id, name, price, image, category, isNew }: ProductCardProps) => {
+const GeoProductCard = ({ id, name, price, image, category, isNew, originalPrice, isOnSale }: ProductCardProps) => {
   const { addToCart } = useCart();
 
   const handleAddToCart = async (e: React.MouseEvent) => {
@@ -25,31 +27,50 @@ const GeoProductCard = ({ id, name, price, image, category, isNew }: ProductCard
 
   return (
     <Link to={`/product/${id}`}>
-      <Card className="group cursor-pointer overflow-hidden transition-transform hover:scale-105">
-        <div className="relative aspect-square overflow-hidden">
-          <img
-            src={image}
-            alt={name}
-            className="h-full w-full object-cover transition-transform group-hover:scale-110"
-          />
-          {isNew && (
-            <Badge className="absolute top-2 left-2 bg-primary text-white">
-              New
-            </Badge>
-          )}
+      <Card className="group cursor-pointer overflow-hidden transition-all duration-300 transform hover:scale-105 hover:rotate-1 shadow-lg hover:shadow-2xl bg-gradient-to-br from-white to-gray-50 border-2 border-gray-200 hover:border-gray-300">
+        <div className="relative aspect-square overflow-hidden transform-gpu perspective-1000">
+          <div className="relative w-full h-full transform transition-transform duration-300 preserve-3d group-hover:rotateY-12">
+            <img
+              src={image}
+              alt={name}
+              className="h-full w-full object-cover transition-transform group-hover:scale-110 shadow-inner"
+              style={{ 
+                filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))',
+                transform: 'translateZ(20px)'
+              }}
+            />
+            {isNew && (
+              <Badge className="absolute top-2 left-2 bg-primary text-white shadow-lg transform rotate-3 hover:rotate-0 transition-transform">
+                New
+              </Badge>
+            )}
+          </div>
         </div>
-        <CardContent className="p-4">
-          <p className="text-sm text-gray-500 mb-1">{category}</p>
-          <h3 className="font-semibold text-lg mb-2 line-clamp-2">{name}</h3>
-          <div className="flex items-center justify-between">
-            <span className="text-xl font-bold text-primary">৳{price}</span>
-            <Button 
-              size="sm" 
-              onClick={handleAddToCart}
-              className="bg-primary hover:bg-primary/90"
-            >
-              Add to Cart
-            </Button>
+        <CardContent className="p-4 bg-gradient-to-t from-gray-50 to-white relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/20 to-transparent opacity-50"></div>
+          <div className="relative z-10">
+            <p className="text-sm text-gray-500 mb-1">{category}</p>
+            <h3 className="font-semibold text-lg mb-2 line-clamp-2 text-gray-800">{name}</h3>
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col">
+                {isOnSale && originalPrice ? (
+                  <>
+                    <span className="text-sm text-gray-500 line-through">৳{originalPrice}</span>
+                    <span className="text-xl font-bold text-red-600">৳{price}</span>
+                  </>
+                ) : (
+                  <span className="text-xl font-bold text-primary">৳{price}</span>
+                )}
+              </div>
+              <Button 
+                size="sm" 
+                onClick={handleAddToCart}
+                className="bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                style={{ transform: 'translateZ(10px)' }}
+              >
+                Add to Cart
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>

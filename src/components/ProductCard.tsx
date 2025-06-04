@@ -11,9 +11,11 @@ interface ProductCardProps {
   image: string;
   category: string;
   isNew?: boolean;
+  originalPrice?: number;
+  isOnSale?: boolean;
 }
 
-const ProductCard = ({ id, name, price, image, category, isNew }: ProductCardProps) => {
+const ProductCard = ({ id, name, price, image, category, isNew, originalPrice, isOnSale }: ProductCardProps) => {
   const { addToCart } = useCart();
 
   const handleAddToCart = async (e: React.MouseEvent) => {
@@ -23,40 +25,64 @@ const ProductCard = ({ id, name, price, image, category, isNew }: ProductCardPro
   };
 
   return (
-    <div className="group bg-white rounded-lg shadow-sm border hover:shadow-lg transition-all duration-300 overflow-hidden transform hover:scale-105">
-      <div className="relative overflow-hidden">
-        <img
-          src={image}
-          alt={name}
-          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-        />
-        {isNew && (
-          <Badge className="absolute top-3 left-3 bg-gradient-to-r from-primary to-orange-600 text-white animate-pulse">
-            New
-          </Badge>
-        )}
+    <div className="group bg-gradient-to-br from-white to-gray-50 rounded-lg shadow-lg hover:shadow-2xl border-2 border-gray-200 hover:border-gray-300 transition-all duration-300 overflow-hidden transform hover:scale-105 hover:rotate-1">
+      <div className="relative overflow-hidden transform-gpu perspective-1000">
+        <div className="relative w-full h-64 transform transition-transform duration-300 preserve-3d group-hover:rotateY-12">
+          <img
+            src={image}
+            alt={name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 shadow-inner"
+            style={{ 
+              filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))',
+              transform: 'translateZ(20px)'
+            }}
+          />
+          {isNew && (
+            <Badge className="absolute top-3 left-3 bg-gradient-to-r from-primary to-orange-600 text-white animate-pulse shadow-lg transform rotate-3 hover:rotate-0 transition-transform">
+              New
+            </Badge>
+          )}
+        </div>
       </div>
       
-      <div className="p-4">
-        <p className="text-sm text-gray-500 mb-1">{category}</p>
-        <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-primary transition-colors">
-          {name}
-        </h3>
-        <div className="flex items-center justify-between">
-          <span className="text-lg font-bold bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent">৳{price}</span>
-          <div className="flex space-x-2">
-            <Link to={`/product/${id}`}>
-              <Button variant="outline" size="sm" className="hover:bg-primary hover:text-white transition-all duration-200 transform hover:scale-105">
-                View
+      <div className="p-4 bg-gradient-to-t from-gray-50 to-white relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/20 to-transparent opacity-50"></div>
+        <div className="relative z-10">
+          <p className="text-sm text-gray-500 mb-1">{category}</p>
+          <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-primary transition-colors">
+            {name}
+          </h3>
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col">
+              {isOnSale && originalPrice ? (
+                <>
+                  <span className="text-sm text-gray-500 line-through">৳{originalPrice}</span>
+                  <span className="text-lg font-bold text-red-600">৳{price}</span>
+                </>
+              ) : (
+                <span className="text-lg font-bold bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent">৳{price}</span>
+              )}
+            </div>
+            <div className="flex space-x-2">
+              <Link to={`/product/${id}`}>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="hover:bg-primary hover:text-white transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg"
+                  style={{ transform: 'translateZ(5px)' }}
+                >
+                  View
+                </Button>
+              </Link>
+              <Button 
+                size="sm" 
+                onClick={handleAddToCart}
+                className="bg-gradient-to-r from-primary to-orange-600 hover:from-orange-600 hover:to-primary text-white shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+                style={{ transform: 'translateZ(10px)' }}
+              >
+                Add to Cart
               </Button>
-            </Link>
-            <Button 
-              size="sm" 
-              onClick={handleAddToCart}
-              className="bg-gradient-to-r from-primary to-orange-600 hover:from-orange-600 hover:to-primary text-white shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
-            >
-              Add to Cart
-            </Button>
+            </div>
           </div>
         </div>
       </div>
