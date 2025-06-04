@@ -29,6 +29,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const cartOperations = useCartOperations();
 
   useEffect(() => {
+    console.log('CartProvider: Fetching cart items');
     if (cartOperations.fetchCartItems) {
       cartOperations.fetchCartItems();
     }
@@ -46,11 +47,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return sum + (price * quantity);
   }, 0) || 0;
 
-  console.log('Geo Cart Debug:', {
+  console.log('CartProvider Debug:', {
     items: cartOperations.items,
     totalItems,
     totalPrice,
-    itemsLength: cartOperations.items?.length || 0
+    itemsLength: cartOperations.items?.length || 0,
+    loading: cartOperations.loading
   });
 
   const value = {
