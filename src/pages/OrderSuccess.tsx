@@ -1,15 +1,66 @@
 
 import { useEffect, useState } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { CheckCircle, Package, Phone, Mail } from 'lucide-react';
+import { CheckCircle, Package, Phone, Mail, AlertCircle } from 'lucide-react';
 
 const OrderSuccess = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const orderNumber = searchParams.get('order');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    
+    // If no order number is provided, redirect to home after a delay
+    if (!orderNumber) {
+      const timer = setTimeout(() => {
+        navigate('/', { replace: true });
+      }, 5000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [orderNumber, navigate]);
+
+  if (!mounted) {
+    return null;
+  }
+
+  // Show error state if no order number
+  if (!orderNumber) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+        <Header />
+        
+        <div className="container mx-auto px-4 py-20">
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="w-24 h-24 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-8">
+              <AlertCircle size={48} className="text-orange-600" />
+            </div>
+
+            <h1 className="text-4xl font-bold text-gray-800 mb-4">
+              Order Not Found
+            </h1>
+            <p className="text-xl text-gray-600 mb-8">
+              We couldn't find your order information. You'll be redirected to the home page shortly.
+            </p>
+
+            <Link to="/">
+              <Button className="bg-gradient-to-r from-primary to-orange-600 hover:from-orange-600 hover:to-primary text-white px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                Go to Home
+              </Button>
+            </Link>
+          </div>
+        </div>
+        
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
@@ -91,10 +142,10 @@ const OrderSuccess = () => {
               If you have any questions about your order, feel free to contact us:
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4 text-sm">
-              <a href="tel:+8801XXXXXXXXX" className="text-primary hover:underline">
+              <a href="tel:+8801XXXXXXXXX" className="text-primary hover:underline transition-colors">
                 📞 +880 1XXX-XXXXXX
               </a>
-              <a href="mailto:support@geo-threads.com" className="text-primary hover:underline">
+              <a href="mailto:support@geo-threads.com" className="text-primary hover:underline transition-colors">
                 ✉️ support@geo-threads.com
               </a>
             </div>
