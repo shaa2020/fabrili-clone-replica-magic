@@ -9,8 +9,8 @@ const HeroSection = () => {
       {/* Background Image with Animation */}
       <div className="absolute inset-0">
         <img 
-          src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=8256&h=5504&auto=format&fit=crop"
-          alt="Professional Background"
+          src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=8256&h=5504&auto=format&fit=crop"
+          alt="Fashion Store Background"
           className="w-full h-full object-cover animate-scale-in"
         />
         {/* Animated Gradient Overlay */}
