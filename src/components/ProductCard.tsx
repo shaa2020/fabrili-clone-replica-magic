@@ -2,8 +2,6 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useCart } from '@/contexts/CartContext';
-import { useToast } from '@/hooks/use-toast';
 
 interface ProductCardProps {
   id: string;
@@ -17,31 +15,6 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ id, name, price, image, category, isNew, originalPrice, isOnSale }: ProductCardProps) => {
-  const { addToCart } = useCart();
-  const { toast } = useToast();
-
-  const handleAddToCart = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    console.log('Adding to GEO cart:', { id, name });
-    
-    try {
-      await addToCart(id, 1);
-      toast({
-        title: "Added to cart",
-        description: `GEO ${name} has been added to your cart`,
-      });
-    } catch (error) {
-      console.error('Error adding to GEO cart:', error);
-      toast({
-        title: "Error",
-        description: "Failed to add item to cart",
-        variant: "destructive",
-      });
-    }
-  };
-
   return (
     <div className="group bg-white rounded-lg shadow-lg hover:shadow-xl border border-gray-200 hover:border-gray-300 transition-all duration-300 overflow-hidden professional-card">
       <div className="relative overflow-hidden">
@@ -73,24 +46,15 @@ const ProductCard = ({ id, name, price, image, category, isNew, originalPrice, i
               <span className="text-lg font-bold text-primary">৳{price}</span>
             )}
           </div>
-          <div className="flex space-x-2">
-            <Link to={`/product/${id}`}>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="hover:bg-primary hover:text-white transition-all duration-200 professional-button"
-              >
-                View
-              </Button>
-            </Link>
+          <Link to={`/product/${id}`}>
             <Button 
+              variant="outline" 
               size="sm" 
-              onClick={handleAddToCart}
-              className="bg-gradient-to-r from-primary to-orange-600 hover:from-orange-600 hover:to-primary text-white transition-all duration-200 professional-button"
+              className="hover:bg-primary hover:text-white transition-all duration-200 professional-button"
             >
-              Add to Cart
+              View Details
             </Button>
-          </div>
+          </Link>
         </div>
       </div>
     </div>
