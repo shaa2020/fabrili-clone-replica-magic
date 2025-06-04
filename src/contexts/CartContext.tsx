@@ -22,8 +22,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     cartOperations.fetchCartItems();
   }, [user]);
 
-  const totalItems = cartOperations.items.reduce((sum, item) => sum + item.quantity, 0);
-  const totalPrice = cartOperations.items.reduce((sum, item) => sum + (item.products?.price || 0) * item.quantity, 0);
+  // Calculate totals with proper fallbacks
+  const totalItems = cartOperations.items?.reduce((sum, item) => {
+    return sum + (item?.quantity || 0);
+  }, 0) || 0;
+  
+  const totalPrice = cartOperations.items?.reduce((sum, item) => {
+    const price = item?.products?.price || 0;
+    const quantity = item?.quantity || 0;
+    return sum + (price * quantity);
+  }, 0) || 0;
 
   const value = {
     ...cartOperations,

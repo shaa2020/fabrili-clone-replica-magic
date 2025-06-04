@@ -58,7 +58,7 @@ const NewCollectionSection = () => {
             Exclusive New Arrivals
           </h2>
           <p className="text-lg sm:text-xl text-gray-700 max-w-2xl mx-auto mb-6 sm:mb-8 px-4">
-            Discover our latest geometric masterpieces, crafted with precision and designed to inspire
+            Discover our latest masterpieces, crafted with precision and designed to inspire
           </p>
           
           {/* Feature highlights */}
@@ -103,7 +103,7 @@ const NewCollectionSection = () => {
                         name={product.name}
                         price={product.price}
                         image={product.images?.[0] || '/placeholder.svg'}
-                        category={product.categories?.name || 'Geometric Art'}
+                        category={product.categories?.name || 'Art'}
                         isNew={product.is_new || false}
                       />
                     </div>
