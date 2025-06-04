@@ -43,22 +43,22 @@ const FeaturesSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-white relative">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold text-geo-gradient mb-6">Why Choose GEO?</h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">Experience the perfect blend of geometric precision and creative freedom</p>
+    <section className="py-12 sm:py-16 lg:py-20 bg-white relative">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-geo-gradient mb-4 sm:mb-6">Why Choose GEO?</h2>
+          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4">Experience the perfect blend of geometric precision and creative freedom</p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
           {features.map((feature, index) => (
             <div key={feature.title} className="group animate-fade-in" style={{animationDelay: `${index * 0.2}s`}}>
-              <Card className="p-8 h-full gradient-card hover:shadow-geo-lg transform hover:scale-105 transition-all duration-500 border-0">
-                <div className={`w-20 h-20 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                  <feature.icon className="text-white h-10 w-10" />
+              <Card className="p-6 sm:p-8 h-full gradient-card hover:shadow-geo-lg transform hover:scale-105 transition-all duration-500 border-0">
+                <div className={`w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r ${feature.color} rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                  <feature.icon className="text-white h-8 w-8 sm:h-10 sm:w-10" />
                 </div>
-                <h3 className="text-2xl font-bold mb-4 text-center text-gray-800">{feature.title}</h3>
-                <p className="text-gray-600 text-center leading-relaxed">{feature.description}</p>
+                <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-center text-gray-800">{feature.title}</h3>
+                <p className="text-gray-600 text-center leading-relaxed text-sm sm:text-base">{feature.description}</p>
               </Card>
             </div>
           ))}

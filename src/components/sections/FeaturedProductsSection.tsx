@@ -20,15 +20,15 @@ const FeaturedProductsSection = () => {
 
   if (isLoading) {
     return (
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <div className="h-12 bg-gray-200 rounded-lg w-96 mx-auto mb-4 animate-pulse"></div>
-            <div className="h-6 bg-gray-200 rounded-lg w-64 mx-auto animate-pulse"></div>
+      <section className="py-12 sm:py-16 lg:py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <div className="h-8 sm:h-12 bg-gray-200 rounded-lg w-64 sm:w-96 mx-auto mb-4 animate-pulse"></div>
+            <div className="h-4 sm:h-6 bg-gray-200 rounded-lg w-48 sm:w-64 mx-auto animate-pulse"></div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="bg-gray-200 h-80 rounded-lg animate-pulse"></div>
+              <div key={i} className="bg-gray-200 h-64 sm:h-80 rounded-lg animate-pulse"></div>
             ))}
           </div>
         </div>
@@ -37,13 +37,13 @@ const FeaturedProductsSection = () => {
   }
 
   return (
-    <section className="py-20 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent mb-6">
+    <section className="py-12 sm:py-16 lg:py-20 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent mb-4 sm:mb-6">
             Featured GEO Designs
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4">
             Handpicked geometric masterpieces that showcase the art of precision
           </p>
         </div>
@@ -72,15 +72,15 @@ const FeaturedProductsSection = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden md:flex" />
-            <CarouselNext className="hidden md:flex" />
+            <CarouselPrevious className="hidden lg:flex" />
+            <CarouselNext className="hidden lg:flex" />
           </Carousel>
         </div>
         
-        <div className="text-center mt-12">
+        <div className="text-center mt-8 sm:mt-12 px-4">
           <Link to="/products">
-            <Button className="bg-gradient-to-r from-primary to-orange-600 hover:from-orange-600 hover:to-primary text-white shadow-lg hover:shadow-xl transition-all duration-300 text-xl px-12 py-6">
-              <Sparkles className="mr-3 h-6 w-6" />
+            <Button className="w-full sm:w-auto bg-gradient-to-r from-primary to-orange-600 hover:from-orange-600 hover:to-primary text-white shadow-lg hover:shadow-xl transition-all duration-300 text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6">
+              <Sparkles className="mr-2 sm:mr-3 h-5 w-5 sm:h-6 sm:w-6" />
               Explore All GEO Products
             </Button>
           </Link>
