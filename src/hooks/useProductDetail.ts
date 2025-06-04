@@ -1,9 +1,7 @@
 
 import { useState } from 'react';
-import { useCart } from '@/contexts/CartContext';
 
 export const useProductDetail = () => {
-  const { addToCart } = useCart();
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
   const [quantity, setQuantity] = useState(1);
@@ -23,7 +21,8 @@ export const useProductDetail = () => {
       return;
     }
     
-    await addToCart(product.id, quantity);
+    // Cart functionality has been removed
+    alert('Cart functionality has been removed');
   };
 
   return {

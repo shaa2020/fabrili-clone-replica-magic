@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -10,12 +9,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/contexts/AuthContext';
-import { useCart } from '@/contexts/CartContext';
 import { Flame, MoreVertical, X, ChevronDown, ShoppingCart } from 'lucide-react';
 
 const Header = () => {
   const { user, signOut } = useAuth();
-  const { items, totalItems } = useCart();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -173,18 +170,6 @@ const Header = () => {
                 <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
               </Button>
             </Link>
-
-            <Link to="/cart" className="relative group">
-              <Button variant="outline" size="sm" className="relative overflow-hidden hover:bg-black hover:text-white transition-all duration-500 border-2 hover:border-black shadow-md transform hover:scale-105 px-4 py-2">
-                <ShoppingCart className="mr-2 h-4 w-4" />
-                <span className="font-medium text-sm">Cart</span>
-                {totalItems > 0 && (
-                  <Badge className="ml-2 bg-red-500 text-white animate-bounce shadow-lg text-xs transform hover:scale-110 transition-all duration-300 min-w-[20px] h-5 flex items-center justify-center">
-                    {totalItems}
-                  </Badge>
-                )}
-              </Button>
-            </Link>
             
             {user ? (
               <DropdownMenu>
@@ -215,20 +200,11 @@ const Header = () => {
             )}
           </div>
 
-          {/* Enhanced Mobile Cart Icon - Right Side */}
+          {/* Enhanced Mobile Icon - Right Side */}
           <div className="flex md:hidden items-center">
-            <Link to="/cart" className="relative group">
-              <Button variant="outline" size="sm" className="relative overflow-hidden hover:bg-black hover:text-white transition-all duration-500 border-2 hover:border-black shadow-md transform hover:scale-105 rounded-2xl p-3">
-                <div className="flex items-center">
-                  <ShoppingCart className="h-5 w-5" />
-                  {totalItems > 0 && (
-                    <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full min-w-[20px] h-5 flex items-center justify-center animate-bounce shadow-lg border-2 border-white">
-                      {totalItems}
-                    </div>
-                  )}
-                </div>
-              </Button>
-            </Link>
+            <Button variant="outline" size="sm" className="relative overflow-hidden hover:bg-black hover:text-white transition-all duration-500 border-2 hover:border-black shadow-md transform hover:scale-105 rounded-2xl p-3">
+              <ShoppingCart className="h-5 w-5" />
+            </Button>
           </div>
         </div>
 
@@ -239,22 +215,6 @@ const Header = () => {
             : 'max-h-0 opacity-0 overflow-hidden scale-95'
         }`}>
           <nav className="flex flex-col space-y-2 pb-6 border-t border-gray-100 pt-6 bg-white/98 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-100">
-            {/* Mobile Cart Summary */}
-            <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl mx-4 mb-4">
-              <Link to="/cart" onClick={closeMobileMenu} className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <ShoppingCart className="h-6 w-6 text-gray-700" />
-                  <span className="font-semibold text-gray-900">Shopping Cart</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Badge className="bg-red-500 text-white font-bold">
-                    {totalItems} items
-                  </Badge>
-                  <span className="text-sm text-gray-600">→</span>
-                </div>
-              </Link>
-            </div>
-
             <Link 
               to="/products" 
               onClick={closeMobileMenu}
