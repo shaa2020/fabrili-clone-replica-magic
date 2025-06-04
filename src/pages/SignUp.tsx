@@ -74,40 +74,47 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <Header />
       
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-md mx-auto">
-          <Card className="p-8">
-            <h1 className="text-2xl font-bold text-center mb-6">Join GEO</h1>
+          <Card className="p-8 shadow-xl border-0 bg-white/80 backdrop-blur-sm opacity-0 animate-fade-in">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2 opacity-0 animate-slide-up">Join GEO</h1>
+              <p className="text-gray-600 opacity-0 animate-fade-in delay-200">Create your account and start your journey</p>
+            </div>
             
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6 opacity-0 animate-slide-up delay-300">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="firstName">First Name</Label>
+                  <Label htmlFor="firstName" className="text-gray-700 font-medium">First Name</Label>
                   <Input
                     id="firstName"
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
                     required
+                    className="h-11 border-gray-200 focus:border-gray-400 transition-colors"
+                    placeholder="First name"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="lastName">Last Name</Label>
+                  <Label htmlFor="lastName" className="text-gray-700 font-medium">Last Name</Label>
                   <Input
                     id="lastName"
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
                     required
+                    className="h-11 border-gray-200 focus:border-gray-400 transition-colors"
+                    placeholder="Last name"
                   />
                 </div>
               </div>
               
               <div>
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-gray-700 font-medium">Email</Label>
                 <Input
                   id="email"
                   name="email"
@@ -115,22 +122,26 @@ const SignUp = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  className="h-11 border-gray-200 focus:border-gray-400 transition-colors"
+                  placeholder="Enter your email"
                 />
               </div>
 
               <div>
-                <Label htmlFor="phone">Phone (Optional)</Label>
+                <Label htmlFor="phone" className="text-gray-700 font-medium">Phone (Optional)</Label>
                 <Input
                   id="phone"
                   name="phone"
                   type="tel"
                   value={formData.phone}
                   onChange={handleChange}
+                  className="h-11 border-gray-200 focus:border-gray-400 transition-colors"
+                  placeholder="Phone number"
                 />
               </div>
               
               <div>
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-gray-700 font-medium">Password</Label>
                 <Input
                   id="password"
                   name="password"
@@ -138,11 +149,13 @@ const SignUp = () => {
                   value={formData.password}
                   onChange={handleChange}
                   required
+                  className="h-11 border-gray-200 focus:border-gray-400 transition-colors"
+                  placeholder="Create a password"
                 />
               </div>
               
               <div>
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Label htmlFor="confirmPassword" className="text-gray-700 font-medium">Confirm Password</Label>
                 <Input
                   id="confirmPassword"
                   name="confirmPassword"
@@ -150,23 +163,32 @@ const SignUp = () => {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   required
+                  className="h-11 border-gray-200 focus:border-gray-400 transition-colors"
+                  placeholder="Confirm your password"
                 />
               </div>
               
               <Button 
                 type="submit" 
-                className="w-full bg-primary hover:bg-primary/90"
+                className="w-full h-11 bg-black hover:bg-gray-800 text-white font-medium transition-all duration-200 hover:scale-105"
                 disabled={loading}
               >
-                {loading ? 'Creating Account...' : 'Create Account'}
+                {loading ? (
+                  <div className="flex items-center">
+                    <div className="w-4 h-4 border-2 border-gray-400 border-t-white rounded-full animate-spin mr-2"></div>
+                    Creating Account...
+                  </div>
+                ) : (
+                  'Create Account'
+                )}
               </Button>
             </form>
             
-            <div className="mt-6 text-center">
+            <div className="mt-8 text-center opacity-0 animate-fade-in delay-500">
               <p className="text-gray-600">
                 Already have an account?{' '}
-                <Link to="/login" className="text-primary hover:underline">
-                  Login
+                <Link to="/login" className="text-black hover:underline font-medium transition-all duration-200">
+                  Sign in
                 </Link>
               </p>
             </div>

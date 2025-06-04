@@ -24,7 +24,7 @@ const Cart = () => {
       <Header />
       
       <div className="container mx-auto px-4 py-12">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 opacity-0 animate-fade-in">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent mb-4">
             Shopping Cart
           </h1>
@@ -32,7 +32,7 @@ const Cart = () => {
         </div>
         
         {items.length === 0 ? (
-          <div className="text-center py-20">
+          <div className="text-center py-20 opacity-0 animate-scale-in delay-200">
             <div className="w-32 h-32 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-8">
               <ShoppingBag size={48} className="text-gray-400" />
             </div>
@@ -49,7 +49,7 @@ const Cart = () => {
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-6">
               {items.map((item, index) => (
-                <Card key={item.id} className="p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-0 rounded-2xl animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
+                <Card key={item.id} className="p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-0 rounded-2xl opacity-0 animate-fade-in" style={{animationDelay: `${(index + 1) * 0.1}s`}}>
                   <div className="flex items-center space-x-6">
                     <div className="relative group">
                       <img
@@ -109,7 +109,7 @@ const Cart = () => {
 
             {/* Order Summary */}
             <div>
-              <Card className="p-8 sticky top-32 shadow-xl border-0 rounded-2xl bg-gradient-to-br from-white to-gray-50">
+              <Card className="p-8 sticky top-32 shadow-xl border-0 rounded-2xl bg-gradient-to-br from-white to-gray-50 opacity-0 animate-scale-in delay-300">
                 <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">Order Summary</h3>
                 <div className="space-y-4">
                   <div className="flex justify-between text-lg">
