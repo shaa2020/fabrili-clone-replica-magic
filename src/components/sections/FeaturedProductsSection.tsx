@@ -41,7 +41,7 @@ const FeaturedProductsSection = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent mb-4 sm:mb-6">
-            Featured GEO Designs
+            Featured Designs
           </h2>
           <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4">
             Handpicked geometric masterpieces that showcase the art of precision
@@ -59,7 +59,7 @@ const FeaturedProductsSection = () => {
             <CarouselContent className="-ml-2 md:-ml-4">
               {featuredProducts.map((product, index) => (
                 <CarouselItem key={product.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4">
-                  <div className="animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
+                  <div className="animate-fade-in transform transition-all duration-300 hover:scale-105" style={{animationDelay: `${index * 0.1}s`}}>
                     <GeoProductCard 
                       id={product.id}
                       name={product.name}
@@ -79,9 +79,9 @@ const FeaturedProductsSection = () => {
         
         <div className="text-center mt-8 sm:mt-12 px-4">
           <Link to="/products">
-            <Button className="w-full sm:w-auto bg-gradient-to-r from-primary to-orange-600 hover:from-orange-600 hover:to-primary text-white shadow-lg hover:shadow-xl transition-all duration-300 text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6">
+            <Button className="w-full sm:w-auto bg-gradient-to-r from-primary to-orange-600 hover:from-orange-600 hover:to-primary text-white shadow-lg hover:shadow-xl transition-all duration-300 text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 transform hover:scale-105">
               <Sparkles className="mr-2 sm:mr-3 h-5 w-5 sm:h-6 sm:w-6" />
-              Explore All GEO Products
+              Explore All Products
             </Button>
           </Link>
         </div>

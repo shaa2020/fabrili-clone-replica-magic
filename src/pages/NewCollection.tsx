@@ -84,8 +84,8 @@ const NewCollection = () => {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {newCollectionProducts.map((product, index) => (
-              <div key={product.id} className="animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
-                <div className="relative overflow-hidden rounded-lg border-2 border-purple-200 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105">
+              <div key={product.id} className="animate-fade-in transform transition-all duration-300 hover:scale-105" style={{animationDelay: `${index * 0.1}s`}}>
+                <div className="relative overflow-hidden rounded-lg border-2 border-purple-200 shadow-2xl hover:shadow-3xl transition-all duration-300">
                   <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/10 to-indigo-500/10"></div>
                   <GeoProductCard 
                     id={product.id}

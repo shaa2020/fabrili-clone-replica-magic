@@ -46,7 +46,7 @@ const Sales = () => {
           </div>
           
           <h1 className="text-6xl font-bold mb-6 animate-fade-in">
-            Unbeatable Deals on GEO Designs
+            Unbeatable Deals on Designs
           </h1>
           
           <p className="text-2xl text-white/90 max-w-3xl mx-auto mb-8 animate-slide-up">
@@ -88,14 +88,14 @@ const Sales = () => {
               const discountPercentage = Math.floor(Math.random() * 30) + 20; // 20-50% discount
               
               return (
-                <div key={product.id} className="animate-fade-in relative" style={{animationDelay: `${index * 0.1}s`}}>
+                <div key={product.id} className="animate-fade-in relative transform transition-all duration-300 hover:scale-105" style={{animationDelay: `${index * 0.1}s`}}>
                   {/* Sale badge overlay */}
                   <div className="absolute top-2 right-2 z-10">
                     <Badge className="bg-red-500 text-white font-bold text-sm animate-pulse shadow-lg">
                       {discountPercentage}% OFF
                     </Badge>
                   </div>
-                  <div className="relative overflow-hidden rounded-lg border-2 border-red-200 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 hover:rotate-1">
+                  <div className="relative overflow-hidden rounded-lg border-2 border-red-200 shadow-lg hover:shadow-xl transition-all duration-300 hover:rotate-1">
                     <div className="absolute inset-0 bg-gradient-to-tr from-red-500/10 to-orange-500/10"></div>
                     <GeoProductCard 
                       id={product.id}

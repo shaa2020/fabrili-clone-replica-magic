@@ -36,7 +36,7 @@ const Products = () => {
         <Header />
         <div className="container mx-auto px-4 py-8">
           <div className="flex items-center justify-center h-64">
-            <div className="text-lg">Loading products...</div>
+            <div className="text-lg animate-pulse">Loading products...</div>
           </div>
         </div>
         <Footer />
@@ -49,12 +49,12 @@ const Products = () => {
       <Header />
       
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">All GEO Products</h1>
+        <h1 className="text-3xl font-bold mb-8">All Products</h1>
         
         {/* Filters */}
         <div className="flex flex-col sm:flex-row gap-4 mb-8">
           <Select value={filterCategory} onValueChange={setFilterCategory}>
-            <SelectTrigger className="w-full sm:w-48">
+            <SelectTrigger className="w-full sm:w-48 transition-all duration-300 hover:shadow-md">
               <SelectValue placeholder="Filter by category" />
             </SelectTrigger>
             <SelectContent>
@@ -68,7 +68,7 @@ const Products = () => {
           </Select>
           
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-full sm:w-48">
+            <SelectTrigger className="w-full sm:w-48 transition-all duration-300 hover:shadow-md">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
@@ -81,16 +81,17 @@ const Products = () => {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {sortedProducts.map((product) => (
-            <GeoProductCard 
-              key={product.id} 
-              id={product.id}
-              name={product.name}
-              price={product.price}
-              image={product.images?.[0] || '/placeholder.svg'}
-              category={product.categories?.name || 'Uncategorized'}
-              isNew={product.is_new || false}
-            />
+          {sortedProducts.map((product, index) => (
+            <div key={product.id} className="animate-fade-in transform transition-all duration-300 hover:scale-105" style={{animationDelay: `${index * 0.1}s`}}>
+              <GeoProductCard 
+                id={product.id}
+                name={product.name}
+                price={product.price}
+                image={product.images?.[0] || '/placeholder.svg'}
+                category={product.categories?.name || 'Uncategorized'}
+                isNew={product.is_new || false}
+              />
+            </div>
           ))}
         </div>
 

@@ -6,17 +6,46 @@ import { Sparkles, Palette } from 'lucide-react';
 const HeroSection = () => {
   return (
     <section className="relative overflow-hidden min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh] lg:min-h-screen flex items-center">
-      {/* Background Image with Animation */}
+      {/* Unique Geometric Background Design */}
       <div className="absolute inset-0">
-        <img 
-          src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=8256&h=5504&auto=format&fit=crop"
-          alt="Fashion Store Background"
-          className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out hover:scale-105"
-        />
-        {/* Animated Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/80 transition-all duration-1000"></div>
-        {/* Additional Dark Overlay for Text Readability */}
-        <div className="absolute inset-0 bg-black/20"></div>
+        {/* Main background with geometric pattern */}
+        <div className="w-full h-full bg-gradient-to-br from-gray-900 via-gray-800 to-black">
+          {/* Animated geometric shapes */}
+          <div className="absolute inset-0 overflow-hidden">
+            {/* Large rotating squares */}
+            <div className="absolute top-20 left-10 w-32 h-32 border-4 border-white/20 transform rotate-45 animate-spin-slow"></div>
+            <div className="absolute top-40 right-20 w-24 h-24 border-4 border-gray-300/30 transform rotate-12 animate-pulse"></div>
+            <div className="absolute bottom-32 left-20 w-40 h-40 border-4 border-white/15 transform rotate-45 animate-bounce"></div>
+            
+            {/* Floating circles */}
+            <div className="absolute top-32 right-1/3 w-16 h-16 bg-white/10 rounded-full animate-float"></div>
+            <div className="absolute bottom-40 right-10 w-20 h-20 bg-gray-300/20 rounded-full animate-float" style={{animationDelay: '1s'}}></div>
+            
+            {/* Grid pattern overlay */}
+            <div className="absolute inset-0 opacity-10" style={{
+              backgroundImage: `
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+              `,
+              backgroundSize: '50px 50px'
+            }}></div>
+            
+            {/* Hexagon shapes */}
+            <div className="absolute top-1/4 left-1/4 w-12 h-12 bg-white/10 transform rotate-12" style={{
+              clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
+            }}></div>
+            <div className="absolute bottom-1/4 right-1/4 w-16 h-16 bg-gray-300/15 transform rotate-45 animate-pulse" style={{
+              clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)'
+            }}></div>
+            
+            {/* Triangular elements */}
+            <div className="absolute top-1/2 left-10 w-0 h-0 border-l-[20px] border-r-[20px] border-b-[35px] border-l-transparent border-r-transparent border-b-white/20 animate-bounce"></div>
+            <div className="absolute top-1/3 right-20 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[26px] border-l-transparent border-r-transparent border-b-gray-300/25 animate-pulse"></div>
+          </div>
+        </div>
+        
+        {/* Gradient overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70"></div>
       </div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 py-8 sm:py-12">
@@ -54,12 +83,6 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
-      
-      {/* Floating geometric shapes - Responsive visibility */}
-      <div className="hidden lg:block absolute top-20 left-10 w-12 h-12 xl:w-16 xl:h-16 bg-white/20 transform rotate-45 transition-all duration-[3000ms] hover:rotate-180 hover:scale-125" style={{animation: 'float 3s ease-in-out infinite'}}></div>
-      <div className="hidden lg:block absolute top-40 right-20 w-8 h-8 xl:w-12 xl:h-12 bg-gray-300/30 rounded-full transition-all duration-[3000ms] hover:scale-150" style={{animation: 'float 3s ease-in-out infinite', animationDelay: '1s'}}></div>
-      <div className="hidden xl:block absolute bottom-32 left-20 w-16 h-16 xl:w-20 xl:h-20 bg-white/15 clip-polygon transition-all duration-[3000ms] hover:scale-125" style={{animation: 'float 3s ease-in-out infinite', animationDelay: '2s'}}></div>
-      <div className="hidden xl:block absolute bottom-20 right-16 w-10 h-10 xl:w-14 xl:h-14 bg-gray-300/25 transform rotate-12 transition-all duration-[3000ms] hover:rotate-45 hover:scale-125" style={{animation: 'float 3s ease-in-out infinite', animationDelay: '0.5s'}}></div>
     </section>
   );
 };
