@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -103,37 +102,41 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const sessionId = getSessionId();
       
-      let query = supabase
+      // Simplified query to avoid type recursion
+      const { data: cartData, error } = await supabase
         .from('cart_items')
-        .select(`
-          *,
-          products (
-            name,
-            price,
-            images
-          )
-        `);
-
-      if (user) {
-        query = query.eq('user_id', user.id);
-      } else {
-        query = query.eq('session_id', sessionId);
-      }
-
-      const { data, error } = await query;
+        .select('*')
+        .or(user ? `user_id.eq.${user.id}` : `session_id.eq.${sessionId}`);
 
       if (error) throw error;
 
-      const cartItems: CartItem[] = (data || []).map(item => ({
-        id: item.id,
-        product_id: item.product_id!,
-        product_name: item.products?.name || 'Unknown Product',
-        product_price: item.products?.price || 0,
-        product_image: item.products?.images?.[0] || '/placeholder.svg',
-        quantity: item.quantity,
-        size: undefined, // Will be handled through variants in the future
-        color: undefined, // Will be handled through variants in the future
-      }));
+      if (!cartData || cartData.length === 0) {
+        dispatch({ type: 'SET_ITEMS', payload: [] });
+        return;
+      }
+
+      // Get product details separately
+      const productIds = cartData.map(item => item.product_id).filter(Boolean);
+      const { data: productsData, error: productsError } = await supabase
+        .from('products')
+        .select('id, name, price, images')
+        .in('id', productIds);
+
+      if (productsError) throw productsError;
+
+      const cartItems: CartItem[] = cartData.map(item => {
+        const product = productsData?.find(p => p.id === item.product_id);
+        return {
+          id: item.id,
+          product_id: item.product_id!,
+          product_name: product?.name || 'Unknown Product',
+          product_price: product?.price || 0,
+          product_image: product?.images?.[0] || '/placeholder.svg',
+          quantity: item.quantity,
+          size: undefined,
+          color: undefined,
+        };
+      });
 
       dispatch({ type: 'SET_ITEMS', payload: cartItems });
     } catch (error) {

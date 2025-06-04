@@ -75,8 +75,8 @@ const Checkout = () => {
     const transactionId = generateTransactionId();
     
     const sslConfig = {
-      store_id: 'test_store', // Replace with actual store ID
-      store_passwd: 'test_password', // Replace with actual password
+      store_id: 'test_store',
+      store_passwd: 'test_password',
       total_amount: total,
       currency: 'BDT',
       tran_id: transactionId,
@@ -118,13 +118,15 @@ const Checkout = () => {
 
     setLoading(true);
     try {
-      // Create order - let the database generate the order_number
+      // Generate order number using the database function
+      const { data: orderNumberData, error: orderNumberError } = await supabase
+        .rpc('generate_order_number');
+
+      if (orderNumberError) throw orderNumberError;
+
       const orderData = {
+        order_number: orderNumberData,
         user_id: user?.id || null,
-        session_id: user ? null : getSessionId(),
-        customer_name: deliveryInfo.fullName,
-        customer_email: deliveryInfo.email,
-        customer_phone: deliveryInfo.phone,
         shipping_address: {
           address: deliveryInfo.address,
           city: deliveryInfo.city,
@@ -149,7 +151,6 @@ const Checkout = () => {
 
       if (orderError) throw orderError;
 
-      // Create order items
       const orderItems = cartState.items.map(item => ({
         order_id: order.id,
         product_id: item.product_id,
@@ -167,13 +168,11 @@ const Checkout = () => {
 
       if (itemsError) throw itemsError;
 
-      // Handle payment method
       if (paymentMethod === 'sslcommerz') {
         await handleSSLCommerzPayment(order.id);
-        return; // SSLCommerz will redirect
+        return;
       }
 
-      // Clear cart and redirect
       await clearCart();
       
       toast({
