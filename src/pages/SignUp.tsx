@@ -23,6 +23,7 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { signUp, user, loading: authLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -31,15 +32,19 @@ const SignUp = () => {
   // Get the intended destination from location state
   const from = location.state?.from?.pathname || '/';
 
-  // Redirect if already logged in
   useEffect(() => {
-    if (!authLoading && user) {
+    setMounted(true);
+  }, []);
+
+  // Redirect if already logged in, but only after component is mounted
+  useEffect(() => {
+    if (mounted && !authLoading && user) {
       navigate(from, { replace: true });
     }
-  }, [user, authLoading, navigate, from]);
+  }, [user, authLoading, navigate, from, mounted]);
 
-  // Don't render if still loading auth or user is logged in
-  if (authLoading || user) {
+  // Don't render anything until mounted and auth state is determined
+  if (!mounted || authLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
         <div className="text-center">
@@ -48,6 +53,11 @@ const SignUp = () => {
         </div>
       </div>
     );
+  }
+
+  // Don't render the signup form if user is already logged in
+  if (user) {
+    return null;
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,7 +153,6 @@ const SignUp = () => {
       if (error) {
         console.error('Sign up error:', error);
         
-        // Handle specific error messages
         let errorMessage = error.message;
         if (error.message.includes('User already registered')) {
           errorMessage = "An account with this email already exists. Please try signing in instead.";
@@ -163,7 +172,6 @@ const SignUp = () => {
           title: "Welcome to GEO!",
           description: "Your account has been created successfully. Please check your email to verify your account.",
         });
-        navigate(from, { replace: true });
       }
     } catch (error) {
       console.error('Unexpected sign up error:', error);
@@ -183,13 +191,13 @@ const SignUp = () => {
       
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-md mx-auto">
-          <Card className="p-8 shadow-xl border-0 bg-white/80 backdrop-blur-sm opacity-0 animate-fade-in">
+          <Card className="p-8 shadow-xl border-0 bg-white/80 backdrop-blur-sm">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2 opacity-0 animate-slide-up">Join GEO</h1>
-              <p className="text-gray-600 opacity-0 animate-fade-in delay-200">Create your account and start your journey</p>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">Join GEO</h1>
+              <p className="text-gray-600">Create your account and start your journey</p>
             </div>
             
-            <form onSubmit={handleSubmit} className="space-y-6 opacity-0 animate-slide-up delay-300">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="firstName" className="text-gray-700 font-medium">First Name</Label>
@@ -310,7 +318,7 @@ const SignUp = () => {
               
               <Button 
                 type="submit" 
-                className="w-full h-11 bg-black hover:bg-gray-800 text-white font-medium transition-all duration-200 hover:scale-105"
+                className="w-full h-11 bg-black hover:bg-gray-800 text-white font-medium transition-all duration-200"
                 disabled={loading}
               >
                 {loading ? (
@@ -324,7 +332,7 @@ const SignUp = () => {
               </Button>
             </form>
             
-            <div className="mt-8 text-center opacity-0 animate-fade-in delay-500">
+            <div className="mt-8 text-center">
               <p className="text-gray-600">
                 Already have an account?{' '}
                 <Link 
