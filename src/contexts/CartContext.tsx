@@ -9,7 +9,6 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const useCart = () => {
   const context = useContext(CartContext);
   if (context === undefined) {
-    // Return a fallback object instead of throwing an error immediately
     console.warn('useCart must be used within a CartProvider');
     return {
       items: [],
@@ -35,9 +34,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [user]);
 
-  // Calculate totals with proper fallbacks
+  // Calculate totals with proper null checks
   const totalItems = cartOperations.items?.reduce((sum, item) => {
-    return sum + (item?.quantity || 0);
+    const quantity = item?.quantity || 0;
+    return sum + quantity;
   }, 0) || 0;
   
   const totalPrice = cartOperations.items?.reduce((sum, item) => {
@@ -45,6 +45,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const quantity = item?.quantity || 0;
     return sum + (price * quantity);
   }, 0) || 0;
+
+  console.log('Cart Debug:', {
+    items: cartOperations.items,
+    totalItems,
+    totalPrice,
+    itemsLength: cartOperations.items?.length || 0
+  });
 
   const value = {
     ...cartOperations,

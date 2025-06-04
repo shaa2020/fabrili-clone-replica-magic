@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -78,7 +77,7 @@ const Header = () => {
             </div>
             <div className="flex flex-col">
               <span className={`font-bold text-black leading-none transition-all duration-500 group-hover:text-gray-800 tracking-tight ${isScrolled ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl lg:text-5xl'}`}>
-                Geometric Design
+                Geo Design
               </span>
               <span className={`text-gray-500 font-semibold tracking-widest transition-all duration-300 group-hover:text-gray-700 uppercase ${isScrolled ? 'text-xs hidden' : 'text-xs hidden sm:block'}`}>
                 Premium Quality
@@ -107,7 +106,7 @@ const Header = () => {
                   <Link to="/category/t-shirts" className="hover:bg-gray-50 rounded-xl transition-all duration-300 transform hover:scale-105 py-4 px-4 flex items-center space-x-3 group">
                     <span className="text-2xl group-hover:scale-110 transition-transform duration-300">👕</span> 
                     <div>
-                      <span className="font-semibold text-gray-900 block">T-Shirts</span>
+                      <span className="font-semibold text-gray-900 block">Geo T-Shirts</span>
                       <span className="text-xs text-gray-500">Premium cotton designs</span>
                     </div>
                   </Link>
@@ -116,7 +115,7 @@ const Header = () => {
                   <Link to="/category/hoodies" className="hover:bg-gray-50 rounded-xl transition-all duration-300 transform hover:scale-105 py-4 px-4 flex items-center space-x-3 group">
                     <span className="text-2xl group-hover:scale-110 transition-transform duration-300">🧥</span> 
                     <div>
-                      <span className="font-semibold text-gray-900 block">Hoodies</span>
+                      <span className="font-semibold text-gray-900 block">Geo Hoodies</span>
                       <span className="text-xs text-gray-500">Comfortable streetwear</span>
                     </div>
                   </Link>
@@ -125,7 +124,7 @@ const Header = () => {
                   <Link to="/category/mugs" className="hover:bg-gray-50 rounded-xl transition-all duration-300 transform hover:scale-105 py-4 px-4 flex items-center space-x-3 group">
                     <span className="text-2xl group-hover:scale-110 transition-transform duration-300">☕</span> 
                     <div>
-                      <span className="font-semibold text-gray-900 block">Mugs</span>
+                      <span className="font-semibold text-gray-900 block">Geo Mugs</span>
                       <span className="text-xs text-gray-500">Ceramic masterpieces</span>
                     </div>
                   </Link>
@@ -134,7 +133,7 @@ const Header = () => {
                   <Link to="/category/bags" className="hover:bg-gray-50 rounded-xl transition-all duration-300 transform hover:scale-105 py-4 px-4 flex items-center space-x-3 group">
                     <span className="text-2xl group-hover:scale-110 transition-transform duration-300">🎒</span> 
                     <div>
-                      <span className="font-semibold text-gray-900 block">Bags</span>
+                      <span className="font-semibold text-gray-900 block">Geo Bags</span>
                       <span className="text-xs text-gray-500">Functional art pieces</span>
                     </div>
                   </Link>
@@ -179,7 +178,7 @@ const Header = () => {
                 <ShoppingCart className="mr-2 h-4 w-4" />
                 <span className="font-medium text-sm">Cart</span>
                 {totalItems > 0 && (
-                  <Badge className="ml-2 bg-black text-white animate-bounce shadow-lg text-xs transform hover:scale-110 transition-all duration-300 min-w-[20px] h-5 flex items-center justify-center">
+                  <Badge className="ml-2 bg-red-500 text-white animate-bounce shadow-lg text-xs transform hover:scale-110 transition-all duration-300 min-w-[20px] h-5 flex items-center justify-center">
                     {totalItems}
                   </Badge>
                 )}
@@ -247,7 +246,7 @@ const Header = () => {
                   <span className="font-semibold text-gray-900">Shopping Cart</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Badge className="bg-black text-white font-bold">
+                  <Badge className="bg-red-500 text-white font-bold">
                     {totalItems} items
                   </Badge>
                   <span className="text-sm text-gray-600">→</span>
@@ -277,28 +276,28 @@ const Header = () => {
                 <Link to="/category/t-shirts" onClick={closeMobileMenu} className="block text-gray-600 hover:text-black transition-all duration-500 py-3 px-4 rounded-lg hover:bg-gray-50 transform hover:scale-105 flex items-center space-x-3">
                   <span className="text-lg">👕</span>
                   <div>
-                    <span className="font-medium block">T-Shirts</span>
+                    <span className="font-medium block">Geo T-Shirts</span>
                     <span className="text-xs text-gray-400">Premium cotton designs</span>
                   </div>
                 </Link>
                 <Link to="/category/hoodies" onClick={closeMobileMenu} className="block text-gray-600 hover:text-black transition-all duration-500 py-3 px-4 rounded-lg hover:bg-gray-50 transform hover:scale-105 flex items-center space-x-3">
                   <span className="text-lg">🧥</span>
                   <div>
-                    <span className="font-medium block">Hoodies</span>
+                    <span className="font-medium block">Geo Hoodies</span>
                     <span className="text-xs text-gray-400">Comfortable streetwear</span>
                   </div>
                 </Link>
                 <Link to="/category/mugs" onClick={closeMobileMenu} className="block text-gray-600 hover:text-black transition-all duration-500 py-3 px-4 rounded-lg hover:bg-gray-50 transform hover:scale-105 flex items-center space-x-3">
                   <span className="text-lg">☕</span>
                   <div>
-                    <span className="font-medium block">Mugs</span>
+                    <span className="font-medium block">Geo Mugs</span>
                     <span className="text-xs text-gray-400">Ceramic masterpieces</span>
                   </div>
                 </Link>
                 <Link to="/category/bags" onClick={closeMobileMenu} className="block text-gray-600 hover:text-black transition-all duration-500 py-3 px-4 rounded-lg hover:bg-gray-50 transform hover:scale-105 flex items-center space-x-3">
                   <span className="text-lg">🎒</span>
                   <div>
-                    <span className="font-medium block">Bags</span>
+                    <span className="font-medium block">Geo Bags</span>
                     <span className="text-xs text-gray-400">Functional art pieces</span>
                   </div>
                 </Link>

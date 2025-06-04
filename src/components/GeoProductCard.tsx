@@ -25,6 +25,8 @@ const GeoProductCard = ({ id, name, price, image, category, isNew, originalPrice
     e.preventDefault();
     e.stopPropagation();
     
+    console.log('Adding to cart:', { id, name });
+    
     try {
       await addToCart(id, 1);
       toast({
@@ -63,7 +65,9 @@ const GeoProductCard = ({ id, name, price, image, category, isNew, originalPrice
         </div>
         <CardContent className="p-3 sm:p-4 flex flex-col h-full">
           <p className="text-xs sm:text-sm text-gray-500 mb-1 uppercase tracking-wide">{category}</p>
-          <h3 className="font-semibold text-base sm:text-lg mb-2 line-clamp-2 text-gray-800 group-hover:text-primary transition-colors flex-grow">{name}</h3>
+          <h3 className="font-semibold text-base sm:text-lg mb-2 line-clamp-2 text-gray-800 group-hover:text-primary transition-colors flex-grow">
+            Geo {name}
+          </h3>
           <div className="flex items-center justify-between mt-auto">
             <div className="flex flex-col">
               {isOnSale && originalPrice ? (
