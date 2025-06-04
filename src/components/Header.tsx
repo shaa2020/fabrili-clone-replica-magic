@@ -30,12 +30,16 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-primary to-orange-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">GT</span>
+          <Link to="/" className="flex items-center space-x-3">
+            <div className="w-10 h-10 flex items-center justify-center">
+              <img 
+                src="/lovable-uploads/e670c598-b3f6-4f25-b732-a70d72576acc.png" 
+                alt="GEO Logo" 
+                className="w-8 h-8 object-contain"
+              />
             </div>
-            <span className="text-xl font-bold bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent">
-              Geo Threads
+            <span className="text-2xl font-bold text-black font-geist tracking-wider hover:text-gray-800 transition-colors duration-200">
+              GEO
             </span>
           </Link>
 
@@ -45,7 +49,7 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className="text-gray-700 hover:text-primary transition-colors duration-200 font-medium"
+                className="text-gray-700 hover:text-black transition-colors duration-200 font-medium font-inter"
               >
                 {item.name}
               </Link>
@@ -65,7 +69,7 @@ const Header = () => {
             {/* User Menu */}
             {user ? (
               <div className="flex items-center space-x-2">
-                <span className="hidden sm:inline text-sm text-gray-600">
+                <span className="hidden sm:inline text-sm text-gray-600 font-inter">
                   Welcome, {user.user_metadata?.full_name || user.email}
                 </span>
                 <Button variant="ghost" size="icon" onClick={handleSignOut}>
@@ -100,7 +104,7 @@ const Header = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 py-2 px-4 rounded-lg hover:bg-gray-50"
+                  className="text-gray-700 hover:text-black transition-colors duration-200 py-2 px-4 rounded-lg hover:bg-gray-50 font-inter"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
@@ -109,7 +113,7 @@ const Header = () => {
               {!user && (
                 <Link
                   to="/login"
-                  className="text-gray-700 hover:text-primary transition-colors duration-200 py-2 px-4 rounded-lg hover:bg-gray-50"
+                  className="text-gray-700 hover:text-black transition-colors duration-200 py-2 px-4 rounded-lg hover:bg-gray-50 font-inter"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Login
