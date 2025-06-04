@@ -126,19 +126,19 @@ const Checkout = () => {
         customer_name: deliveryInfo.fullName,
         customer_email: deliveryInfo.email,
         customer_phone: deliveryInfo.phone,
-        delivery_address: {
+        shipping_address: {
           address: deliveryInfo.address,
           city: deliveryInfo.city,
           postalCode: deliveryInfo.postalCode,
           instructions: deliveryInfo.instructions
         },
         subtotal: subtotal,
-        shipping_cost: shipping,
+        shipping_amount: shipping,
         total_amount: total,
         payment_method: paymentMethod,
         payment_reference: paymentReference || null,
-        order_status: 'pending',
-        payment_status: paymentMethod === 'cod' ? 'pending' : 'pending',
+        status: 'pending',
+        payment_status: 'pending',
         notes: deliveryInfo.instructions
       };
 
@@ -155,7 +155,7 @@ const Checkout = () => {
         order_id: order.id,
         product_id: item.product_id,
         product_name: item.product_name,
-        product_price: item.product_price,
+        unit_price: item.product_price,
         quantity: item.quantity,
         size: item.size,
         color: item.color,

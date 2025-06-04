@@ -125,8 +125,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         product_price: item.products?.price || 0,
         product_image: item.products?.images?.[0] || '/placeholder.svg',
         quantity: item.quantity,
-        size: item.size || undefined,
-        color: item.color || undefined,
+        size: undefined, // Will be handled through variants in the future
+        color: undefined, // Will be handled through variants in the future
       }));
 
       dispatch({ type: 'SET_ITEMS', payload: cartItems });
@@ -153,8 +153,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           user_id: user?.id || null,
           session_id: user ? null : sessionId,
           quantity,
-          size,
-          color,
         })
         .select()
         .single();
