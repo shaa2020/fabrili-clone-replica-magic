@@ -14,11 +14,6 @@ const Cart = () => {
   const shipping = subtotal > 0 ? 150 : 0;
   const total = subtotal + shipping;
 
-  const handleSSLCommerzPayment = () => {
-    // SSLCommerz integration will be added after Supabase setup
-    alert('SSLCommerz payment integration will be implemented with backend setup');
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       <Header />
@@ -129,12 +124,13 @@ const Cart = () => {
                     </div>
                   </div>
                 </div>
-                <Button 
-                  onClick={handleSSLCommerzPayment}
-                  className="w-full mt-8 bg-gradient-to-r from-primary to-orange-600 hover:from-orange-600 hover:to-primary text-white py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-lg font-semibold"
-                >
-                  Pay with SSLCommerz
-                </Button>
+                <Link to="/checkout">
+                  <Button 
+                    className="w-full mt-8 bg-gradient-to-r from-primary to-orange-600 hover:from-orange-600 hover:to-primary text-white py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-lg font-semibold"
+                  >
+                    Proceed to Checkout
+                  </Button>
+                </Link>
                 <Link to="/products" className="block mt-4">
                   <Button variant="outline" className="w-full py-3 rounded-xl border-2 border-gray-200 hover:border-primary hover:bg-primary hover:text-white transition-all duration-200">
                     Continue Shopping
