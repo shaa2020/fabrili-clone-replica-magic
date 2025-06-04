@@ -41,27 +41,31 @@ function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
     case 'SET_LOADING':
       return { ...state, loading: action.payload };
-    case 'SET_ITEMS':
+    case 'SET_ITEMS': {
       const total = action.payload.reduce((sum, item) => sum + (item.product_price * item.quantity), 0);
       const itemCount = action.payload.reduce((sum, item) => sum + item.quantity, 0);
       return { ...state, items: action.payload, total, itemCount };
-    case 'ADD_ITEM':
+    }
+    case 'ADD_ITEM': {
       const newItems = [...state.items, action.payload];
       const newTotal = newItems.reduce((sum, item) => sum + (item.product_price * item.quantity), 0);
       const newItemCount = newItems.reduce((sum, item) => sum + item.quantity, 0);
       return { ...state, items: newItems, total: newTotal, itemCount: newItemCount };
-    case 'UPDATE_ITEM':
+    }
+    case 'UPDATE_ITEM': {
       const updatedItems = state.items.map(item =>
         item.id === action.payload.id ? { ...item, quantity: action.payload.quantity } : item
       );
       const updatedTotal = updatedItems.reduce((sum, item) => sum + (item.product_price * item.quantity), 0);
       const updatedItemCount = updatedItems.reduce((sum, item) => sum + item.quantity, 0);
       return { ...state, items: updatedItems, total: updatedTotal, itemCount: updatedItemCount };
-    case 'REMOVE_ITEM':
+    }
+    case 'REMOVE_ITEM': {
       const filteredItems = state.items.filter(item => item.id !== action.payload);
       const filteredTotal = filteredItems.reduce((sum, item) => sum + (item.product_price * item.quantity), 0);
       const filteredItemCount = filteredItems.reduce((sum, item) => sum + item.quantity, 0);
       return { ...state, items: filteredItems, total: filteredTotal, itemCount: filteredItemCount };
+    }
     case 'CLEAR_CART':
       return { ...state, items: [], total: 0, itemCount: 0 };
     default:
@@ -69,14 +73,16 @@ function cartReducer(state: CartState, action: CartAction): CartState {
   }
 }
 
-const CartContext = createContext<{
+interface CartContextValue {
   state: CartState;
   addToCart: (product: any, quantity?: number, size?: string, color?: string) => Promise<void>;
   updateQuantity: (itemId: string, quantity: number) => Promise<void>;
   removeFromCart: (itemId: string) => Promise<void>;
   clearCart: () => Promise<void>;
   getSessionId: () => string;
-} | null>(null);
+}
+
+const CartContext = createContext<CartContextValue | null>(null);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState);

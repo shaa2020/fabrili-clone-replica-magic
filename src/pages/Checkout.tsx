@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -119,7 +118,7 @@ const Checkout = () => {
 
     setLoading(true);
     try {
-      // Create order
+      // Create order - let the database generate the order_number
       const orderData = {
         user_id: user?.id || null,
         session_id: user ? null : getSessionId(),
@@ -135,10 +134,10 @@ const Checkout = () => {
         subtotal: subtotal,
         shipping_amount: shipping,
         total_amount: total,
-        payment_method: paymentMethod,
+        payment_method: paymentMethod as any,
         payment_reference: paymentReference || null,
-        status: 'pending',
-        payment_status: 'pending',
+        status: 'pending' as any,
+        payment_status: 'pending' as any,
         notes: deliveryInfo.instructions
       };
 
