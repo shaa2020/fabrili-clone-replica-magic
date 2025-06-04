@@ -1,9 +1,8 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
-import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -13,128 +12,123 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Separator } from '@/components/ui/separator';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { CreditCard, Truck, Wallet } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { CreditCard, Truck, MapPin, Phone } from 'lucide-react';
 
-const checkoutSchema = z.object({
-  // Delivery Information
-  fullName: z.string().min(2, 'Full name is required'),
-  phone: z.string().min(11, 'Valid phone number is required'),
-  email: z.string().email('Valid email is required'),
-  addressLine1: z.string().min(5, 'Address is required'),
-  addressLine2: z.string().optional(),
-  city: z.string().min(2, 'City is required'),
-  district: z.string().min(2, 'District is required'),
-  postalCode: z.string().optional(),
-  
-  // Payment Information
-  paymentMethod: z.enum(['cod', 'bkash', 'nagad', 'rocket', 'upay']),
-  paymentNumber: z.string().optional(),
-  
-  // Additional
-  notes: z.string().optional(),
-});
-
-type CheckoutFormData = z.infer<typeof checkoutSchema>;
+type PaymentMethod = 'cod' | 'bkash' | 'nagad' | 'rocket' | 'card';
 
 const Checkout = () => {
   const { user } = useAuth();
-  const { items, totalPrice, clearCart } = useCart();
+  const { items, clearCart, totalPrice } = useCart();
   const { toast } = useToast();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
 
-  const form = useForm<CheckoutFormData>({
-    resolver: zodResolver(checkoutSchema),
-    defaultValues: {
-      fullName: '',
-      phone: '',
-      email: user?.email || '',
-      addressLine1: '',
-      addressLine2: '',
-      city: '',
-      district: '',
-      postalCode: '',
-      paymentMethod: 'cod',
-      paymentNumber: '',
-      notes: '',
-    },
+  // Delivery Information State
+  const [deliveryInfo, setDeliveryInfo] = useState({
+    fullName: user?.user_metadata?.full_name || '',
+    phone: '',
+    email: user?.email || '',
+    address: '',
+    city: '',
+    postalCode: '',
+    instructions: ''
   });
 
-  const watchPaymentMethod = form.watch('paymentMethod');
+  // Payment State
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cod');
+  const [paymentReference, setPaymentReference] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const shipping = 150;
   const total = totalPrice + shipping;
 
-  useEffect(() => {
-    if (items.length === 0) {
-      navigate('/cart');
-    }
-  }, [items, navigate]);
+  const handleInputChange = (field: string, value: string) => {
+    setDeliveryInfo(prev => ({ ...prev, [field]: value }));
+  };
 
-  useEffect(() => {
-    if (user?.email) {
-      form.setValue('email', user.email);
+  const validateForm = () => {
+    const required = ['fullName', 'phone', 'address', 'city'];
+    for (const field of required) {
+      if (!deliveryInfo[field as keyof typeof deliveryInfo]) {
+        toast({
+          title: "Missing Information",
+          description: `Please fill in your ${field.replace(/([A-Z])/g, ' $1').toLowerCase()}`,
+          variant: "destructive",
+        });
+        return false;
+      }
     }
-  }, [user, form]);
 
-  const onSubmit = async (data: CheckoutFormData) => {
+    if (paymentMethod !== 'cod' && !paymentReference) {
+      toast({
+        title: "Payment Reference Required",
+        description: "Please provide your payment reference/transaction ID",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handlePlaceOrder = async () => {
     if (!user) {
       toast({
-        title: "Authentication Required",
-        description: "Please log in to complete your order",
+        title: "Please Login",
+        description: "You need to be logged in to place an order",
         variant: "destructive",
       });
       navigate('/login');
       return;
     }
 
+    if (!validateForm()) return;
+
+    if (items.length === 0) {
+      toast({
+        title: "Cart is Empty",
+        description: "Please add items to your cart before placing an order",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
-    
+
     try {
-      // Create order in database
+      // Generate order number
+      const orderNumber = `GEO-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+      // Create order
       const orderData = {
         user_id: user.id,
-        order_number: `GEO${Date.now()}`,
+        order_number: orderNumber,
         status: 'pending',
-        payment_status: 'pending',
-        payment_method: data.paymentMethod,
+        payment_status: paymentMethod === 'cod' ? 'pending' : 'paid',
+        payment_method: paymentMethod === 'card' ? 'card' : paymentMethod as PaymentMethod,
         subtotal: totalPrice,
         shipping_amount: shipping,
         total_amount: total,
         currency: 'BDT',
         shipping_address: {
-          full_name: data.fullName,
-          phone: data.phone,
-          email: data.email,
-          address_line_1: data.addressLine1,
-          address_line_2: data.addressLine2,
-          city: data.city,
-          district: data.district,
-          postal_code: data.postalCode,
+          fullName: deliveryInfo.fullName,
+          phone: deliveryInfo.phone,
+          email: deliveryInfo.email,
+          address: deliveryInfo.address,
+          city: deliveryInfo.city,
+          postalCode: deliveryInfo.postalCode,
+          instructions: deliveryInfo.instructions
         },
         billing_address: {
-          full_name: data.fullName,
-          phone: data.phone,
-          email: data.email,
-          address_line_1: data.addressLine1,
-          address_line_2: data.addressLine2,
-          city: data.city,
-          district: data.district,
-          postal_code: data.postalCode,
+          fullName: deliveryInfo.fullName,
+          phone: deliveryInfo.phone,
+          email: deliveryInfo.email,
+          address: deliveryInfo.address,
+          city: deliveryInfo.city,
+          postalCode: deliveryInfo.postalCode
         },
-        notes: data.notes,
-        payment_reference: data.paymentNumber,
+        payment_reference: paymentReference || null,
+        notes: deliveryInfo.instructions || null
       };
 
       const { data: order, error: orderError } = await supabase
@@ -149,14 +143,9 @@ const Checkout = () => {
       const orderItems = items.map(item => ({
         order_id: order.id,
         product_id: item.product_id,
-        variant_id: item.variant_id,
         quantity: item.quantity,
         unit_price: item.products?.price || 0,
-        total_price: (item.products?.price || 0) * item.quantity,
-        product_name: item.products?.name || 'Product',
-        product_sku: '',
-        size: 'Standard',
-        color: 'Default',
+        total_price: (item.products?.price || 0) * item.quantity
       }));
 
       const { error: itemsError } = await supabase
@@ -170,10 +159,12 @@ const Checkout = () => {
 
       toast({
         title: "Order Placed Successfully!",
-        description: `Your order #${order.order_number} has been placed. We'll contact you soon for confirmation.`,
+        description: `Your order ${orderNumber} has been placed successfully.`,
       });
 
-      navigate(`/order-success?order=${order.order_number}`);
+      // Redirect to success page
+      navigate(`/order-success?order=${orderNumber}`);
+
     } catch (error) {
       console.error('Error placing order:', error);
       toast({
@@ -186,280 +177,229 @@ const Checkout = () => {
     }
   };
 
-  const paymentMethods = [
-    { value: 'cod', label: 'Cash on Delivery', icon: Truck, description: 'Pay when you receive your order' },
-    { value: 'bkash', label: 'bKash', icon: Wallet, description: 'Mobile banking payment' },
-    { value: 'nagad', label: 'Nagad', icon: Wallet, description: 'Mobile banking payment' },
-    { value: 'rocket', label: 'Rocket', icon: Wallet, description: 'Mobile banking payment' },
-    { value: 'upay', label: 'Upay', icon: CreditCard, description: 'Mobile banking payment' },
-  ];
-
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
-        <Header />
-        <div className="container mx-auto px-4 py-20">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold mb-4">Login Required</h1>
-            <p className="text-gray-600 mb-8">Please log in to continue with checkout</p>
-            <Button onClick={() => navigate('/login')} className="bg-primary hover:bg-primary/90">
-              Go to Login
-            </Button>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
+  const getPaymentInstructions = () => {
+    switch (paymentMethod) {
+      case 'bkash':
+        return "Send money to: 01XXXXXXXXX (Merchant). Use 'Send Money' option and enter the transaction ID below.";
+      case 'nagad':
+        return "Send money to: 01XXXXXXXXX (Merchant). Use 'Send Money' option and enter the transaction ID below.";
+      case 'rocket':
+        return "Send money to: 01XXXXXXXXX-X (Agent). Use 'Send Money' option and enter the transaction ID below.";
+      case 'card':
+        return "You will be redirected to a secure payment gateway to complete your payment.";
+      default:
+        return "Pay when your order is delivered to your doorstep.";
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
       <Header />
       
       <div className="container mx-auto px-4 py-12">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 opacity-0 animate-fade-in">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent mb-4">
             Checkout
           </h1>
           <div className="w-24 h-1 bg-gradient-to-r from-primary to-orange-600 mx-auto rounded-full"></div>
         </div>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Checkout Form */}
-            <div className="lg:col-span-2 space-y-8">
-              {/* Delivery Information */}
-              <Card className="p-8 shadow-lg border-0 rounded-2xl">
-                <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-                  <Truck className="mr-3 text-primary" size={24} />
-                  Delivery Information
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <FormField
-                    control={form.control}
-                    name="fullName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Full Name *</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter your full name" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Phone Number *</FormLabel>
-                        <FormControl>
-                          <Input placeholder="01XXXXXXXXX" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem className="md:col-span-2">
-                        <FormLabel>Email Address *</FormLabel>
-                        <FormControl>
-                          <Input placeholder="your@email.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="addressLine1"
-                    render={({ field }) => (
-                      <FormItem className="md:col-span-2">
-                        <FormLabel>Address Line 1 *</FormLabel>
-                        <FormControl>
-                          <Input placeholder="House/Flat No, Road, Area" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="addressLine2"
-                    render={({ field }) => (
-                      <FormItem className="md:col-span-2">
-                        <FormLabel>Address Line 2 (Optional)</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Landmark, Building name" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="city"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>City *</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Dhaka" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="district"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>District *</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Dhaka" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="postalCode"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Postal Code</FormLabel>
-                        <FormControl>
-                          <Input placeholder="1000" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          {/* Checkout Form */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Delivery Information */}
+            <Card className="p-8 shadow-lg border-0 rounded-2xl opacity-0 animate-scale-in delay-200">
+              <div className="flex items-center mb-6">
+                <MapPin className="text-primary mr-3" size={24} />
+                <h2 className="text-2xl font-bold text-gray-800">Delivery Information</h2>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <Label htmlFor="fullName" className="text-gray-700 font-medium">Full Name *</Label>
+                  <Input
+                    id="fullName"
+                    value={deliveryInfo.fullName}
+                    onChange={(e) => handleInputChange('fullName', e.target.value)}
+                    className="mt-2"
+                    placeholder="Enter your full name"
                   />
                 </div>
-              </Card>
-
-              {/* Payment Method */}
-              <Card className="p-8 shadow-lg border-0 rounded-2xl">
-                <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-                  <CreditCard className="mr-3 text-primary" size={24} />
-                  Payment Method
-                </h2>
-                <FormField
-                  control={form.control}
-                  name="paymentMethod"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          className="space-y-4"
-                        >
-                          {paymentMethods.map((method) => (
-                            <div key={method.value} className="flex items-center space-x-3 p-4 border rounded-xl hover:bg-gray-50 transition-colors">
-                              <RadioGroupItem value={method.value} id={method.value} />
-                              <div className="flex items-center space-x-3 flex-1">
-                                <method.icon size={24} className="text-primary" />
-                                <div>
-                                  <Label htmlFor={method.value} className="font-semibold cursor-pointer">
-                                    {method.label}
-                                  </Label>
-                                  <p className="text-sm text-gray-600">{method.description}</p>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {watchPaymentMethod !== 'cod' && (
-                  <div className="mt-6">
-                    <FormField
-                      control={form.control}
-                      name="paymentNumber"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Payment Account Number</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter your mobile banking number" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                          <p className="text-sm text-gray-600 mt-2">
-                            We'll send you payment instructions after order confirmation
-                          </p>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                )}
-              </Card>
-
-              {/* Additional Notes */}
-              <Card className="p-8 shadow-lg border-0 rounded-2xl">
-                <h2 className="text-xl font-bold text-gray-800 mb-4">Additional Notes</h2>
-                <FormField
-                  control={form.control}
-                  name="notes"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Textarea
-                          placeholder="Any special instructions for delivery..."
-                          className="min-h-[100px]"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </Card>
-            </div>
-
-            {/* Order Summary */}
-            <div>
-              <Card className="p-8 sticky top-32 shadow-xl border-0 rounded-2xl bg-gradient-to-br from-white to-gray-50">
-                <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">Order Summary</h3>
                 
-                {/* Order Items */}
-                <div className="space-y-4 mb-6">
-                  {items.map((item) => (
-                    <div key={item.id} className="flex items-center space-x-3">
-                      <img
-                        src={item.products?.images?.[0] || '/placeholder.svg'}
-                        alt={item.products?.name || 'Product'}
-                        className="w-12 h-12 object-cover rounded-lg"
-                      />
-                      <div className="flex-1">
-                        <p className="font-semibold text-sm">{item.products?.name}</p>
-                        <p className="text-gray-600 text-sm">Qty: {item.quantity}</p>
-                      </div>
-                      <p className="font-semibold">৳{((item.products?.price || 0) * item.quantity).toFixed(0)}</p>
-                    </div>
-                  ))}
+                <div>
+                  <Label htmlFor="phone" className="text-gray-700 font-medium">Phone Number *</Label>
+                  <Input
+                    id="phone"
+                    value={deliveryInfo.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    className="mt-2"
+                    placeholder="01XXXXXXXXX"
+                  />
                 </div>
+                
+                <div>
+                  <Label htmlFor="email" className="text-gray-700 font-medium">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={deliveryInfo.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    className="mt-2"
+                    placeholder="your@email.com"
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="city" className="text-gray-700 font-medium">City *</Label>
+                  <Input
+                    id="city"
+                    value={deliveryInfo.city}
+                    onChange={(e) => handleInputChange('city', e.target.value)}
+                    className="mt-2"
+                    placeholder="Dhaka"
+                  />
+                </div>
+                
+                <div className="md:col-span-2">
+                  <Label htmlFor="address" className="text-gray-700 font-medium">Full Address *</Label>
+                  <Textarea
+                    id="address"
+                    value={deliveryInfo.address}
+                    onChange={(e) => handleInputChange('address', e.target.value)}
+                    className="mt-2"
+                    placeholder="House/Flat no, Road, Area, Thana"
+                    rows={3}
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="postalCode" className="text-gray-700 font-medium">Postal Code</Label>
+                  <Input
+                    id="postalCode"
+                    value={deliveryInfo.postalCode}
+                    onChange={(e) => handleInputChange('postalCode', e.target.value)}
+                    className="mt-2"
+                    placeholder="1000"
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="instructions" className="text-gray-700 font-medium">Delivery Instructions</Label>
+                  <Input
+                    id="instructions"
+                    value={deliveryInfo.instructions}
+                    onChange={(e) => handleInputChange('instructions', e.target.value)}
+                    className="mt-2"
+                    placeholder="Any special instructions"
+                  />
+                </div>
+              </div>
+            </Card>
 
-                <Separator className="my-6" />
+            {/* Payment Method */}
+            <Card className="p-8 shadow-lg border-0 rounded-2xl opacity-0 animate-scale-in delay-400">
+              <div className="flex items-center mb-6">
+                <CreditCard className="text-primary mr-3" size={24} />
+                <h2 className="text-2xl font-bold text-gray-800">Payment Method</h2>
+              </div>
+              
+              <RadioGroup value={paymentMethod} onValueChange={(value) => setPaymentMethod(value as PaymentMethod)}>
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                    <RadioGroupItem value="cod" id="cod" />
+                    <div className="flex-1">
+                      <Label htmlFor="cod" className="text-lg font-medium cursor-pointer">Cash on Delivery</Label>
+                      <p className="text-sm text-gray-600">Pay when your order arrives</p>
+                    </div>
+                    <Truck className="text-green-600" size={20} />
+                  </div>
+                  
+                  <div className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                    <RadioGroupItem value="bkash" id="bkash" />
+                    <div className="flex-1">
+                      <Label htmlFor="bkash" className="text-lg font-medium cursor-pointer">bKash</Label>
+                      <p className="text-sm text-gray-600">Mobile banking payment</p>
+                    </div>
+                    <div className="w-12 h-8 bg-pink-600 rounded flex items-center justify-center text-white text-xs font-bold">bK</div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                    <RadioGroupItem value="nagad" id="nagad" />
+                    <div className="flex-1">
+                      <Label htmlFor="nagad" className="text-lg font-medium cursor-pointer">Nagad</Label>
+                      <p className="text-sm text-gray-600">Digital financial service</p>
+                    </div>
+                    <div className="w-12 h-8 bg-orange-600 rounded flex items-center justify-center text-white text-xs font-bold">N</div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                    <RadioGroupItem value="rocket" id="rocket" />
+                    <div className="flex-1">
+                      <Label htmlFor="rocket" className="text-lg font-medium cursor-pointer">Rocket</Label>
+                      <p className="text-sm text-gray-600">DBBL mobile banking</p>
+                    </div>
+                    <div className="w-12 h-8 bg-purple-600 rounded flex items-center justify-center text-white text-xs font-bold">R</div>
+                  </div>
+                </div>
+              </RadioGroup>
+              
+              {/* Payment Instructions */}
+              <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                <h3 className="font-semibold text-gray-800 mb-2">Payment Instructions:</h3>
+                <p className="text-sm text-gray-600">{getPaymentInstructions()}</p>
+              </div>
+              
+              {/* Payment Reference Input for Mobile Banking */}
+              {paymentMethod !== 'cod' && paymentMethod !== 'card' && (
+                <div className="mt-6">
+                  <Label htmlFor="paymentReference" className="text-gray-700 font-medium">
+                    Transaction ID / Reference *
+                  </Label>
+                  <Input
+                    id="paymentReference"
+                    value={paymentReference}
+                    onChange={(e) => setPaymentReference(e.target.value)}
+                    className="mt-2"
+                    placeholder="Enter your transaction ID"
+                  />
+                </div>
+              )}
+            </Card>
+          </div>
 
-                {/* Price Breakdown */}
-                <div className="space-y-3">
-                  <div className="flex justify-between text-lg">
-                    <span className="text-gray-600">Subtotal</span>
-                    <span className="font-semibold">৳{totalPrice.toFixed(0)}</span>
+          {/* Order Summary */}
+          <div>
+            <Card className="p-8 sticky top-32 shadow-xl border-0 rounded-2xl bg-gradient-to-br from-white to-gray-50 opacity-0 animate-scale-in delay-300">
+              <h3 className="text-2xl font-bold text-gray-800 mb-6 text-center">Order Summary</h3>
+              
+              {/* Order Items */}
+              <div className="space-y-4 mb-6">
+                {items.map((item) => (
+                  <div key={item.id} className="flex items-center space-x-3">
+                    <img
+                      src={item.products?.images?.[0] || '/placeholder.svg'}
+                      alt={item.products?.name || 'Product'}
+                      className="w-12 h-12 object-cover rounded"
+                    />
+                    <div className="flex-1">
+                      <p className="font-medium text-sm">{item.products?.name}</p>
+                      <p className="text-gray-600 text-xs">Qty: {item.quantity}</p>
+                    </div>
+                    <p className="font-semibold">৳{((item.products?.price || 0) * item.quantity).toFixed(0)}</p>
                   </div>
-                  <div className="flex justify-between text-lg">
-                    <span className="text-gray-600">Shipping</span>
-                    <span className="font-semibold">৳{shipping.toFixed(0)}</span>
-                  </div>
-                  <Separator />
+                ))}
+              </div>
+              
+              <div className="space-y-3 border-t pt-4">
+                <div className="flex justify-between text-lg">
+                  <span className="text-gray-600">Subtotal</span>
+                  <span className="font-semibold">৳{totalPrice.toFixed(0)}</span>
+                </div>
+                <div className="flex justify-between text-lg">
+                  <span className="text-gray-600">Shipping</span>
+                  <span className="font-semibold">৳{shipping.toFixed(0)}</span>
+                </div>
+                <div className="border-t-2 border-gray-200 pt-3">
                   <div className="flex justify-between text-2xl font-bold">
                     <span>Total</span>
                     <span className="bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent">
@@ -467,18 +407,36 @@ const Checkout = () => {
                     </span>
                   </div>
                 </div>
-
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full mt-8 bg-gradient-to-r from-primary to-orange-600 hover:from-orange-600 hover:to-primary text-white py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-lg font-semibold"
-                >
-                  {loading ? 'Placing Order...' : 'Place Order'}
-                </Button>
-              </Card>
-            </div>
-          </form>
-        </Form>
+              </div>
+              
+              <Button 
+                onClick={handlePlaceOrder}
+                disabled={loading || items.length === 0}
+                className="w-full mt-8 bg-gradient-to-r from-primary to-orange-600 hover:from-orange-600 hover:to-primary text-white py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-lg font-semibold"
+              >
+                {loading ? (
+                  <div className="flex items-center">
+                    <div className="w-5 h-5 border-2 border-gray-400 border-t-white rounded-full animate-spin mr-2"></div>
+                    Placing Order...
+                  </div>
+                ) : (
+                  'Place Order'
+                )}
+              </Button>
+              
+              {/* Security Note */}
+              <div className="mt-6 p-4 bg-green-50 rounded-lg">
+                <div className="flex items-center">
+                  <Phone className="text-green-600 mr-2" size={16} />
+                  <p className="text-sm text-green-800 font-medium">Secure Checkout</p>
+                </div>
+                <p className="text-xs text-green-700 mt-1">
+                  We'll call you within 30 minutes to confirm your order
+                </p>
+              </div>
+            </Card>
+          </div>
+        </div>
       </div>
       
       <Footer />
