@@ -25,9 +25,9 @@ const ProductCard = ({ id, name, price, image, category, isNew, originalPrice, i
   };
 
   return (
-    <div className="group bg-gradient-to-br from-white to-gray-50 rounded-lg shadow-2xl hover:shadow-3xl border-2 border-gray-200 hover:border-gray-300 transition-all duration-300 overflow-hidden transform hover:scale-105 hover:rotate-1" style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 25px -10px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05)' }}>
+    <div className="group bg-gradient-to-br from-white to-gray-50 rounded-lg shadow-2xl hover:shadow-3xl border-2 border-gray-200 hover:border-gray-300 transition-all duration-300 overflow-hidden transform hover:scale-105" style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 25px -10px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05)' }}>
       <div className="relative overflow-hidden transform-gpu perspective-1000" style={{ filter: 'drop-shadow(0 20px 25px rgba(0, 0, 0, 0.15))' }}>
-        <div className="relative w-full h-64 transform transition-transform duration-300 preserve-3d group-hover:rotateY-12" style={{ filter: 'drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1))' }}>
+        <div className="relative w-full h-64 transform transition-transform duration-300 preserve-3d" style={{ filter: 'drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1))' }}>
           <img
             src={image}
             alt={name}
@@ -38,7 +38,7 @@ const ProductCard = ({ id, name, price, image, category, isNew, originalPrice, i
             }}
           />
           {isNew && (
-            <Badge className="absolute top-3 left-3 bg-gradient-to-r from-primary to-orange-600 text-white animate-pulse shadow-2xl transform rotate-3 hover:rotate-0 transition-transform" style={{ filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))' }}>
+            <Badge className="absolute top-3 left-3 bg-gradient-to-r from-primary to-orange-600 text-white animate-pulse shadow-2xl transition-transform" style={{ filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))' }}>
               New
             </Badge>
           )}

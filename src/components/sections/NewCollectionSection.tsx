@@ -96,7 +96,7 @@ const NewCollectionSection = () => {
                         NEW
                       </Badge>
                     </div>
-                    <div className="relative overflow-hidden rounded-lg border-2 border-purple-200 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 hover:rotate-1" style={{ boxShadow: '0 25px 50px -12px rgba(147, 51, 234, 0.25), 0 10px 25px -10px rgba(99, 102, 241, 0.15)' }}>
+                    <div className="relative overflow-hidden rounded-lg border-2 border-purple-200 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105" style={{ boxShadow: '0 25px 50px -12px rgba(147, 51, 234, 0.25), 0 10px 25px -10px rgba(99, 102, 241, 0.15)' }}>
                       <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/10 to-indigo-500/10"></div>
                       <GeoProductCard 
                         id={product.id}
@@ -117,7 +117,7 @@ const NewCollectionSection = () => {
         </div>
         
         <div className="text-center mt-12">
-          <Link to="/products">
+          <Link to="/new-collection">
             <Button className="bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 hover:from-purple-600 hover:via-indigo-600 hover:to-blue-600 text-white shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 text-xl px-12 py-6" style={{ filter: 'drop-shadow(0 8px 16px rgba(147, 51, 234, 0.3))' }}>
               <Sparkles className="mr-3 h-6 w-6" />
               Explore New Collection
