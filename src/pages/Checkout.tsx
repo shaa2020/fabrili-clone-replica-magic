@@ -14,8 +14,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import { CreditCard, Truck, MapPin, Phone } from 'lucide-react';
+import type { Database } from '@/integrations/supabase/types';
 
-type PaymentMethod = 'cod' | 'bkash' | 'nagad' | 'rocket' | 'card';
+type PaymentMethod = Database['public']['Enums']['payment_method'];
+type OrderStatus = Database['public']['Enums']['order_status'];
+type PaymentStatus = Database['public']['Enums']['payment_status'];
 
 const Checkout = () => {
   const { user } = useAuth();
@@ -90,8 +93,8 @@ const Checkout = () => {
       const orderNumber = `GEO-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
       // Prepare order data with correct types
-      const orderStatus = 'pending';
-      const paymentStatus = paymentMethod === 'cod' ? 'pending' : 'paid';
+      const orderStatus: OrderStatus = 'pending';
+      const paymentStatus: PaymentStatus = paymentMethod === 'cod' ? 'pending' : 'paid';
       
       const orderData = {
         user_id: user?.id || null,
