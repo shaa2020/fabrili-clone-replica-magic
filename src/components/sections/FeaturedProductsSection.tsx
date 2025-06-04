@@ -4,12 +4,19 @@ import { Button } from '@/components/ui/button';
 import GeoProductCard from '@/components/GeoProductCard';
 import { useProducts } from '@/hooks/useProducts';
 import { Sparkles } from 'lucide-react';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const FeaturedProductsSection = () => {
   const { data: products = [], isLoading } = useProducts();
   
   // Get featured products for display
-  const featuredProducts = products.filter(product => product.is_featured).slice(0, 4);
+  const featuredProducts = products.filter(product => product.is_featured).slice(0, 8);
 
   if (isLoading) {
     return (
@@ -37,19 +44,33 @@ const FeaturedProductsSection = () => {
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">Handpicked geometric masterpieces that showcase the art of precision</p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {featuredProducts.map((product, index) => (
-            <div key={product.id} className="animate-fade-in" style={{animationDelay: `${index * 0.2}s`}}>
-              <GeoProductCard 
-                id={product.id}
-                name={product.name}
-                price={product.price}
-                image={product.images?.[0] || '/placeholder.svg'}
-                category={product.categories?.name || 'Geometric Art'}
-                isNew={product.is_new || false}
-              />
-            </div>
-          ))}
+        <div className="relative">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {featuredProducts.map((product, index) => (
+                <CarouselItem key={product.id} className="pl-2 md:pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+                  <div className="animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
+                    <GeoProductCard 
+                      id={product.id}
+                      name={product.name}
+                      price={product.price}
+                      image={product.images?.[0] || '/placeholder.svg'}
+                      category={product.categories?.name || 'Geometric Art'}
+                      isNew={product.is_new || false}
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex" />
+            <CarouselNext className="hidden md:flex" />
+          </Carousel>
         </div>
         
         <div className="text-center mt-12">
