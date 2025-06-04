@@ -30,15 +30,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const hasInitialized = useRef(false);
 
   useEffect(() => {
-    // Only fetch cart items once when the component mounts and user state is resolved
-    if (!hasInitialized.current && user !== undefined) {
-      console.log('CartProvider: Initial cart fetch, user:', user);
+    // Only fetch cart items once when the component mounts
+    if (!hasInitialized.current) {
+      console.log('CartProvider: Initial cart fetch');
       if (cartOperations.fetchCartItems) {
         cartOperations.fetchCartItems();
       }
       hasInitialized.current = true;
     }
-  }, [user]);
+  }, []);
 
   // Calculate totals with proper null checks
   const totalItems = cartOperations.items?.reduce((sum, item) => {
@@ -57,8 +57,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     totalItems,
     totalPrice,
     itemsLength: cartOperations.items?.length || 0,
-    loading: cartOperations.loading,
-    hasInitialized: hasInitialized.current
+    loading: cartOperations.loading
   });
 
   const value = {

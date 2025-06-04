@@ -22,12 +22,6 @@ export const useCartOperations = () => {
   const fetchCartItems = async () => {
     console.log('fetchCartItems called, user state:', user);
     
-    // Don't fetch if user state is still undefined (initial auth loading)
-    if (user === undefined) {
-      console.log('User state undefined, skipping cart fetch');
-      return;
-    }
-    
     if (user) {
       // Fetch from database for logged-in users
       setLoading(true);
