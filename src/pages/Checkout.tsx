@@ -59,7 +59,7 @@ const Checkout = () => {
       }
     }
 
-    if (paymentMethod !== 'cod' && !paymentReference) {
+    if (paymentMethod !== 'cod' && paymentMethod !== 'card' && !paymentReference) {
       toast({
         title: "Payment Reference Required",
         description: "Please provide your payment reference/transaction ID",
@@ -72,16 +72,6 @@ const Checkout = () => {
   };
 
   const handlePlaceOrder = async () => {
-    if (!user) {
-      toast({
-        title: "Please Login",
-        description: "You need to be logged in to place an order",
-        variant: "destructive",
-      });
-      navigate('/login');
-      return;
-    }
-
     if (!validateForm()) return;
 
     if (items.length === 0) {
@@ -99,13 +89,13 @@ const Checkout = () => {
       // Generate order number
       const orderNumber = `GEO-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-      // Create order
+      // Prepare order data with correct types
       const orderData = {
-        user_id: user.id,
+        user_id: user?.id || null,
         order_number: orderNumber,
-        status: 'pending',
-        payment_status: paymentMethod === 'cod' ? 'pending' : 'paid',
-        payment_method: paymentMethod === 'card' ? 'card' : paymentMethod as PaymentMethod,
+        status: 'pending' as const,
+        payment_status: (paymentMethod === 'cod' ? 'pending' : 'paid') as const,
+        payment_method: paymentMethod,
         subtotal: totalPrice,
         shipping_amount: shipping,
         total_amount: total,
@@ -139,10 +129,11 @@ const Checkout = () => {
 
       if (orderError) throw orderError;
 
-      // Create order items
+      // Create order items with required fields
       const orderItems = items.map(item => ({
         order_id: order.id,
         product_id: item.product_id,
+        product_name: item.products?.name || 'Unknown Product',
         quantity: item.quantity,
         unit_price: item.products?.price || 0,
         total_price: (item.products?.price || 0) * item.quantity
