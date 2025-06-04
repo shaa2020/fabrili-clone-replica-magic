@@ -96,6 +96,7 @@ export type Database = {
           id: string
           product_id: string | null
           quantity: number
+          session_id: string | null
           updated_at: string | null
           user_id: string | null
           variant_id: string | null
@@ -105,6 +106,7 @@ export type Database = {
           id?: string
           product_id?: string | null
           quantity?: number
+          session_id?: string | null
           updated_at?: string | null
           user_id?: string | null
           variant_id?: string | null
@@ -114,6 +116,7 @@ export type Database = {
           id?: string
           product_id?: string | null
           quantity?: number
+          session_id?: string | null
           updated_at?: string | null
           user_id?: string | null
           variant_id?: string | null

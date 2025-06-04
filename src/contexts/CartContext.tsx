@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -102,11 +103,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const sessionId = getSessionId();
       
-      // Simplified query to avoid type recursion
-      const { data: cartData, error } = await supabase
-        .from('cart_items')
-        .select('*')
-        .or(user ? `user_id.eq.${user.id}` : `session_id.eq.${sessionId}`);
+      // Get cart items based on user login status
+      const cartQuery = user 
+        ? supabase.from('cart_items').select('*').eq('user_id', user.id)
+        : supabase.from('cart_items').select('*').eq('session_id', sessionId);
+
+      const { data: cartData, error } = await cartQuery;
 
       if (error) throw error;
 
@@ -115,7 +117,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return;
       }
 
-      // Get product details separately
+      // Get product details
       const productIds = cartData.map(item => item.product_id).filter(Boolean);
       const { data: productsData, error: productsError } = await supabase
         .from('products')
@@ -155,14 +157,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const sessionId = getSessionId();
       
+      const insertData = {
+        product_id: product.id,
+        user_id: user?.id || null,
+        session_id: user ? null : sessionId,
+        quantity,
+      };
+
       const { data, error } = await supabase
         .from('cart_items')
-        .insert({
-          product_id: product.id,
-          user_id: user?.id || null,
-          session_id: user ? null : sessionId,
-          quantity,
-        })
+        .insert(insertData)
         .select()
         .single();
 
@@ -245,19 +249,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const sessionId = getSessionId();
       
       if (user) {
-        const { error } = await supabase
-          .from('cart_items')
-          .delete()
-          .eq('user_id', user.id);
-        
-        if (error) throw error;
+        await supabase.from('cart_items').delete().eq('user_id', user.id);
       } else {
-        const { error } = await supabase
-          .from('cart_items')
-          .delete()
-          .eq('session_id', sessionId);
-        
-        if (error) throw error;
+        await supabase.from('cart_items').delete().eq('session_id', sessionId);
       }
 
       dispatch({ type: 'CLEAR_CART' });
