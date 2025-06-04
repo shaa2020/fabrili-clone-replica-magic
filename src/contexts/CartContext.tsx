@@ -27,27 +27,16 @@ export const useCart = () => {
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user } = useAuth();
   const cartOperations = useCartOperations();
-  const initialLoadRef = useRef(false);
+  const hasInitialized = useRef(false);
 
   useEffect(() => {
-    // Only fetch cart items on initial load or when user authentication state is fully resolved
-    if (!initialLoadRef.current) {
-      console.log('CartProvider: Initial cart fetch');
+    // Only fetch cart items once when the component mounts and user state is resolved
+    if (!hasInitialized.current && user !== undefined) {
+      console.log('CartProvider: Initial cart fetch, user:', user);
       if (cartOperations.fetchCartItems) {
         cartOperations.fetchCartItems();
       }
-      initialLoadRef.current = true;
-    }
-  }, []);
-
-  // Separate effect for user-specific cart operations (like syncing guest cart)
-  useEffect(() => {
-    if (initialLoadRef.current && user !== undefined) {
-      console.log('CartProvider: User state changed, checking for cart sync');
-      // Only refetch if user is logged in and we need to sync
-      if (user && cartOperations.fetchCartItems) {
-        cartOperations.fetchCartItems();
-      }
+      hasInitialized.current = true;
     }
   }, [user]);
 
@@ -68,7 +57,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     totalItems,
     totalPrice,
     itemsLength: cartOperations.items?.length || 0,
-    loading: cartOperations.loading
+    loading: cartOperations.loading,
+    hasInitialized: hasInitialized.current
   });
 
   const value = {

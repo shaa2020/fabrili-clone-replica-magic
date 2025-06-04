@@ -149,13 +149,6 @@ export const useCartOperations = () => {
     }
   };
 
-  // Effect to sync guest cart when user logs in
-  useEffect(() => {
-    if (user) {
-      syncGuestCartToDatabase();
-    }
-  }, [user]);
-
   const addToCart = async (productId: string, quantity: number) => {
     if (user) {
       // Logged-in user: add to database
